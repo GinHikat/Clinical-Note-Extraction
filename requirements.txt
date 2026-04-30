@@ -1,0 +1,10 @@
+pandas
+numpy
+matplotlib
+scikit-learn
+torch
+transformers
+python-dotenv
+jupyter
+notebook
+ipykernel
