@@ -2,3 +2,4 @@ data/
 secrets/
 .env
 __pycache__/
+models/
