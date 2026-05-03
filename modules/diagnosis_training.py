@@ -42,7 +42,6 @@ def main(load_dir=None, truncation_level=200, others_limit=None, epochs=15, mode
     models_root = os.path.join(temp_root, "models")
     os.makedirs(models_root, exist_ok=True)
 
-
     # Load dataset
     print("Loading dataset...")
     csv_path = os.path.join(data_dir, 'final_diagnosis.csv') 
@@ -101,7 +100,7 @@ def main(load_dir=None, truncation_level=200, others_limit=None, epochs=15, mode
     print(f"Total Unique Labels (after truncation): {num_labels}")
 
     # Setup run folder for saving
-    run_folder_name = f"diagnosis_run_{truncation_level}_{num_labels}"
+    run_folder_name = f"diagnosis_run_{truncation_level}_{num_labels}_{model_type}"
     save_path = os.path.join(models_root, run_folder_name)
     os.makedirs(save_path, exist_ok=True)
     print(f"Results will be saved to: {save_path}")
@@ -189,7 +188,7 @@ def main(load_dir=None, truncation_level=200, others_limit=None, epochs=15, mode
     train_loader = DataLoader(train_dataset, batch_size=2, shuffle=True, num_workers=0, pin_memory=True)
     val_loader = DataLoader(val_dataset, batch_size=2, num_workers=0, pin_memory=True)
 
-    optimizer = AdamW(pm.model.parameters(), lr=1e-5, weight_decay=0.001)
+    optimizer = AdamW(pm.model.parameters(), lr=1e-5, weight_decay=0.0001)
     if bnb: optimizer = bnb.optim.AdamW8bit(pm.model.parameters(), lr=1e-5)
     
     EPOCHS = epochs
@@ -285,7 +284,7 @@ def main(load_dir=None, truncation_level=200, others_limit=None, epochs=15, mode
                 
         avg_val_loss = total_val_loss / len(val_loader)
 
-        EVAL_THRESHOLD = 0.8
+        EVAL_THRESHOLD = 0.5
         
         metrics = pm.compute_metrics((np.vstack(all_logits), np.vstack(all_labels)), threshold=EVAL_THRESHOLD)
         
