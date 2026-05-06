@@ -64,6 +64,10 @@ Script to get specific file from the Data repo on Huggingface:
 curl -L -H "Authorization: Bearer hf_token_here" https://huggingface.co/datasets/zinzinmit/Note/resolve/main/file -o target_path
 ```
 
+Or pull the whole repo and git lfs later 
+```shell
+$env:GIT_LFS_SKIP_SMUDGE=1; git clone https://huggingface.co/datasets/zinzinmit/Note
+```
 
 ### 6. Run the Pipeline
 You can now start training the models using the scripts provided in the `modules/` directory.
