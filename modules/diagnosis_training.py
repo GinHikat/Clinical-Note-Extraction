@@ -185,8 +185,8 @@ def main(load_dir=None, truncation_level=200, others_limit=None, epochs=15, mode
     train_dataset = RadiologyDataset(train_df['text'].tolist(), train_df['labels'].tolist(), pm.tokenizer, max_length=2048)
     val_dataset = RadiologyDataset(val_df['text'].tolist(), val_df['labels'].tolist(), pm.tokenizer, max_length=2048)
     
-    train_loader = DataLoader(train_dataset, batch_size=2, shuffle=True, num_workers=0, pin_memory=True)
-    val_loader = DataLoader(val_dataset, batch_size=2, num_workers=0, pin_memory=True)
+    train_loader = DataLoader(train_dataset, batch_size=4, shuffle=True, num_workers=0, pin_memory=True)
+    val_loader = DataLoader(val_dataset, batch_size=4, num_workers=0, pin_memory=True)
 
     optimizer = AdamW(pm.model.parameters(), lr=1e-5, weight_decay=0.0001)
     if bnb: optimizer = bnb.optim.AdamW8bit(pm.model.parameters(), lr=1e-5)
