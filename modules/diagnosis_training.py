@@ -1,7 +1,17 @@
 import pandas as pd
 import numpy as np
 import torch
+import torch._dynamo as dynamo
+import safetensors.torch as st_torch
 import ast
+import os
+import sys
+import warnings
+import logging
+import joblib
+import gc
+import argparse
+import dotenv
 from torch.utils.data import DataLoader
 from transformers import get_linear_schedule_with_warmup
 from torch.optim import AdamW
@@ -12,14 +22,6 @@ try:
     import bitsandbytes as bnb
 except ImportError:
     bnb = None
-import os
-import sys
-import warnings
-import logging
-import joblib
-import gc
-import argparse
-import dotenv
 
 logging.getLogger("transformers").setLevel(logging.ERROR)
 
@@ -133,9 +135,8 @@ def main(load_dir=None, truncation_level=200, others_limit=None, epochs=15, mode
     
     # ROCm Optimization: Configure Dynamo for better stability
     if hasattr(torch, 'compile'):
-        import torch._dynamo
         # Fallback to eager mode if compilation fails instead of crashing
-        torch._dynamo.config.suppress_errors = True
+        dynamo.config.suppress_errors = True
         # Reduce compilation threads to prevent subprocess crashes on ROCm
         os.environ["TORCHINDUCTOR_COMPILE_THREADS"] = "1"
         
@@ -149,7 +150,6 @@ def main(load_dir=None, truncation_level=200, others_limit=None, epochs=15, mode
     
     # Save tokenizer and label encoder once at the start
     print(f"Saving setup files to {save_path}...")
-    import joblib
     joblib.dump(mlb, os.path.join(save_path, "mlb.pkl"))
     pm.tokenizer.save_pretrained(save_path)
     
@@ -170,8 +170,7 @@ def main(load_dir=None, truncation_level=200, others_limit=None, epochs=15, mode
                 if os.path.exists(wf_path):
                     print(f"Loading weights from {wf_path}")
                     if wf.endswith(".safetensors"):
-                        from safetensors.torch import load_file
-                        state_dict = load_file(wf_path, device=str(pm.device))
+                        state_dict = st_torch.load_file(wf_path, device=str(pm.device))
                         state_dict = {k.replace(".gamma", ".weight").replace(".beta", ".bias"): v for k, v in state_dict.items()}
                         pm.model.load_state_dict(state_dict)
                         found = True
