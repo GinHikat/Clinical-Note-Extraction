@@ -21,10 +21,13 @@ import gc
 import argparse
 import dotenv
 
-os.environ["TOKENIZERS_PARALLELISM"] = "false"
-
-warnings.filterwarnings("ignore")
 logging.getLogger("transformers").setLevel(logging.ERROR)
+
+# ROCm Optimizations: Environment Variables
+os.environ['NCCL_P2P_DISABLE'] = '1'
+os.environ['MIOPEN_DEBUG_CONV_GEMM_FWD'] = '0'
+os.environ['TORCH_BLAS_PREFER_HIP'] = '1'
+os.environ['TOKENIZERS_PARALLELISM'] = 'false'
 
 # Setup paths
 script_dir = os.path.dirname(os.path.abspath(__file__))
@@ -128,6 +131,16 @@ def main(load_dir=None, truncation_level=200, others_limit=None, epochs=15, mode
         print("Using Standard ProcedureModel (Clinical-Longformer)...")
         pm = ProcedureModel(num_labels=num_labels)
     
+    # ROCm Optimization: Compile the model using Triton
+    if hasattr(torch, 'compile'):
+        try:
+            print("Compiling model for ROCm performance...")
+            # Set matmul precision
+            torch.set_float32_matmul_precision('high')
+            pm.model = torch.compile(pm.model)
+        except Exception as e:
+            print(f"torch.compile failed: {e}. Proceeding without compilation.")
+    
     # Save tokenizer and label encoder once at the start
     print(f"Saving setup files to {save_path}...")
     import joblib
@@ -182,17 +195,22 @@ def main(load_dir=None, truncation_level=200, others_limit=None, epochs=15, mode
     pm.model.gradient_checkpointing_enable()
     
     # Dataloaders 
+    # Dataloaders - Increased for MI300X performance
+    # Longformer with max_length=2048 can easily handle larger batches on 192GB VRAM
+    BATCH_SIZE = 32 
+    NUM_WORKERS = 8
+    
     train_dataset = RadiologyDataset(train_df['text'].tolist(), train_df['labels'].tolist(), pm.tokenizer, max_length=2048)
     val_dataset = RadiologyDataset(val_df['text'].tolist(), val_df['labels'].tolist(), pm.tokenizer, max_length=2048)
     
-    train_loader = DataLoader(train_dataset, batch_size=4, shuffle=True, num_workers=0, pin_memory=True)
-    val_loader = DataLoader(val_dataset, batch_size=4, num_workers=0, pin_memory=True)
+    train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=NUM_WORKERS, pin_memory=True)
+    val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, num_workers=NUM_WORKERS, pin_memory=True)
 
     optimizer = AdamW(pm.model.parameters(), lr=1e-5, weight_decay=0.0001)
     if bnb: optimizer = bnb.optim.AdamW8bit(pm.model.parameters(), lr=1e-5)
     
     EPOCHS = epochs
-    ACCUMULATION_STEPS = 4
+    ACCUMULATION_STEPS = 1  # Reduced from 4: MI300 can handle the full batch easily
     total_steps = (len(train_loader) // ACCUMULATION_STEPS) * EPOCHS
     scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=0, num_training_steps=total_steps)
     # Use weighted BCE loss to boost confidence for sparse labels
@@ -223,10 +241,13 @@ def main(load_dir=None, truncation_level=200, others_limit=None, epochs=15, mode
             attention_mask = batch['attention_mask'].to(pm.device)
             labels = batch['labels'].to(pm.device)
             
-            with torch.cuda.amp.autocast():
+            # Use bfloat16 for ROCm/MI300 performance
+            with torch.cuda.amp.autocast(dtype=torch.bfloat16):
                 outputs = pm.model(input_ids=input_ids, attention_mask=attention_mask)
                 loss = loss_fn(outputs.logits, labels)
-                loss = loss / ACCUMULATION_STEPS
+                # No scaling needed if accumulation is 1, but keeping logic for safety
+                if ACCUMULATION_STEPS > 1:
+                    loss = loss / ACCUMULATION_STEPS
             
             scaler.scale(loss).backward()
             
@@ -253,10 +274,10 @@ def main(load_dir=None, truncation_level=200, others_limit=None, epochs=15, mode
                     'scaler_state_dict': scaler.state_dict(),
                 }, checkpoint_path)
             
-            # Periodic Memory Cleanup
-            if (i + 1) % 500 == 0:
+            # Periodic Memory Cleanup (Reduced frequency for ROCm)
+            if (i + 1) % 2000 == 0:
                 gc.collect()
-                torch.cuda.empty_cache()
+                # torch.cuda.empty_cache() # Removed: performance killer
             
         avg_train_loss = total_train_loss / len(train_loader)
         print(f"Average Training Loss: {avg_train_loss:.4f}")
@@ -273,7 +294,7 @@ def main(load_dir=None, truncation_level=200, others_limit=None, epochs=15, mode
                 attention_mask = batch['attention_mask'].to(pm.device)
                 labels = batch['labels'].to(pm.device)
                 
-                with torch.cuda.amp.autocast():
+                with torch.cuda.amp.autocast(dtype=torch.bfloat16):
                     outputs = pm.model(input_ids=input_ids, attention_mask=attention_mask)
                     logits = outputs.logits
                     loss = loss_fn(logits, labels)
