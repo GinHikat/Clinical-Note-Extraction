@@ -131,15 +131,21 @@ def main(load_dir=None, truncation_level=200, others_limit=None, epochs=15, mode
         print("Using Standard ProcedureModel (Clinical-Longformer)...")
         pm = ProcedureModel(num_labels=num_labels)
     
-    # ROCm Optimization: Compile the model using Triton
+    # ROCm Optimization: Configure Dynamo for better stability
     if hasattr(torch, 'compile'):
+        import torch._dynamo
+        # Fallback to eager mode if compilation fails instead of crashing
+        torch._dynamo.config.suppress_errors = True
+        # Reduce compilation threads to prevent subprocess crashes on ROCm
+        os.environ["TORCHINDUCTOR_COMPILE_THREADS"] = "1"
+        
         try:
-            print("Compiling model for ROCm performance...")
+            print("Compiling model for ROCm performance (with eager fallback)...")
             # Set matmul precision
             torch.set_float32_matmul_precision('high')
             pm.model = torch.compile(pm.model)
         except Exception as e:
-            print(f"torch.compile failed: {e}. Proceeding without compilation.")
+            print(f"torch.compile initialization failed: {e}. Proceeding in eager mode.")
     
     # Save tokenizer and label encoder once at the start
     print(f"Saving setup files to {save_path}...")
