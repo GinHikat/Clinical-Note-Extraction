@@ -1,0 +1,46 @@
+=== TRAINING LOG START ===
+Device: cuda
+Batch size: 128, LR: 0.0001, Epochs: 50
+========================================
+
+Epoch   1 | Train loss: 5.0518 | Val mean AUROC: 0.7295
+
+[MORTALITY]
+AUROC: 0.9856 | AUPR: 0.5066 | F1: 0.2979
+
+[LOS > 7 DAYS]
+AUROC: 0.7736 | AUPR: 0.4703 | F1: 0.4721
+
+[READMISSION]
+AUROC: 0.7411 | AUPR: 0.5303 | F1: 0.4832
+
+[PROGRESSION]
+AUROC: 0.5781 | AUPR: 0.0450 | F1: 0.0642
+
+[DRUG RECOMMENDATION]
+AUROC: 0.5689 | AUPR: 0.2746 | F1: 0.2842
+
+[VALIDATION LOSSES]
+mort: 0.282 | los: 0.923 | readm: 0.884 | prog: 1.352 | drug: 1.149
+========================================
+
+Epoch   2 | Train loss: 4.4848 | Val mean AUROC: 0.7693
+
+[MORTALITY]
+AUROC: 0.9888 | AUPR: 0.5969 | F1: 0.3503
+
+[LOS > 7 DAYS]
+AUROC: 0.8242 | AUPR: 0.5589 | F1: 0.5111
+
+[READMISSION]
+AUROC: 0.7548 | AUPR: 0.5511 | F1: 0.4930
+
+[PROGRESSION]
+AUROC: 0.6609 | AUPR: 0.0604 | F1: 0.1144
+
+[DRUG RECOMMENDATION]
+AUROC: 0.6179 | AUPR: 0.3107 | F1: 0.3569
+
+[VALIDATION LOSSES]
+mort: 0.231 | los: 0.853 | readm: 0.862 | prog: 1.285 | drug: 1.119
+========================================
