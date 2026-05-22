@@ -39,6 +39,22 @@ if temp_root not in sys.path:
 
 from modules.models import ProcedureModel, PLMICDModel, MSMNModel, RadiologyDataset
 
+def get_autocast_context(dtype=None):
+    if hasattr(torch, 'amp') and hasattr(torch.amp, 'autocast'):
+        if dtype is not None:
+            return torch.amp.autocast('cuda', dtype=dtype)
+        return torch.amp.autocast('cuda')
+    else:
+        if dtype is not None:
+            return torch.cuda.amp.autocast(dtype=dtype)
+        return torch.cuda.amp.autocast()
+
+def get_grad_scaler():
+    if hasattr(torch, 'amp') and hasattr(torch.amp, 'GradScaler'):
+        return torch.amp.GradScaler('cuda')
+    else:
+        return torch.cuda.amp.GradScaler()
+
 data_dir = os.path.join(temp_root, 'data')
 cleaned_data_dir = os.path.join(data_dir, 'cleaned')
 
@@ -220,7 +236,7 @@ def main(load_dir=None, truncation_level=200, others_limit=None, epochs=15, mode
     pos_weight_tensor = torch.tensor(class_weights, dtype=torch.float32).to(pm.device)
     loss_fn = torch.nn.BCEWithLogitsLoss(pos_weight=pos_weight_tensor)
     
-    scaler = torch.amp.GradScaler('cuda')
+    scaler = get_grad_scaler()
 
     if load_dir and os.path.exists(checkpoint_path):
         optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
@@ -246,7 +262,7 @@ def main(load_dir=None, truncation_level=200, others_limit=None, epochs=15, mode
             labels = batch['labels'].to(pm.device)
             
             # Modern AMP syntax for ROCm/CUDA
-            with torch.amp.autocast('cuda', dtype=torch.bfloat16):
+            with get_autocast_context(dtype=torch.bfloat16):
                 outputs = pm.model(input_ids=input_ids, attention_mask=attention_mask)
                 loss = loss_fn(outputs.logits, labels)
                 loss = loss / ACCUMULATION_STEPS
@@ -296,7 +312,7 @@ def main(load_dir=None, truncation_level=200, others_limit=None, epochs=15, mode
                 attention_mask = batch['attention_mask'].to(pm.device)
                 labels = batch['labels'].to(pm.device)
                 
-                with torch.amp.autocast('cuda', dtype=torch.bfloat16):
+                with get_autocast_context(dtype=torch.bfloat16):
                     outputs = pm.model(input_ids=input_ids, attention_mask=attention_mask)
                     logits = outputs.logits
                     loss = loss_fn(logits, labels)

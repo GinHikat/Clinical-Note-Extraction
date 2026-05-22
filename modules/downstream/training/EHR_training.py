@@ -31,6 +31,18 @@ if current_dir not in sys.path:
 
 from EHR_model import EHRDataset, ehr_collate_fn, EHRModel, EHRTransformer, EHRTransformerBase, EHRLoss
 
+def get_autocast_context():
+    if hasattr(torch, 'amp') and hasattr(torch.amp, 'autocast'):
+        return torch.amp.autocast('cuda')
+    else:
+        return torch.cuda.amp.autocast()
+
+def get_grad_scaler():
+    if hasattr(torch, 'amp') and hasattr(torch.amp, 'GradScaler'):
+        return torch.amp.GradScaler('cuda')
+    else:
+        return torch.cuda.amp.GradScaler()
+
 def parse_args():
     parser = argparse.ArgumentParser(description='EHR Training')
     parser.add_argument('--model_type', type=str, default='lstm', choices=['lstm', 'transformer', 'transformer_base'], help='Model type: lstm, transformer, or transformer_base')
@@ -117,7 +129,7 @@ def evaluate(model, loader, criterion, device):
             if batch is None: continue
             batch = {k: v.to(device) if isinstance(v, torch.Tensor) else v for k, v in batch.items()}
             
-            with torch.amp.autocast('cuda'):
+            with get_autocast_context():
                 logits = model(batch)
                 loss, loss_dict = criterion(logits, batch)
                 
@@ -238,7 +250,7 @@ def train(
     recent_checkpoints = [] # Keep last 10 epoch checkpoints in CPU memory for Stochastic Weight Averaging (SWA)
     
     # Mixed Precision Scaler
-    scaler = torch.amp.GradScaler('cuda')
+    scaler = get_grad_scaler()
 
     # Initialize/Clear metrics log file only if starting from scratch
     log_mode = 'w' if start_epoch == 1 else 'a'
@@ -277,7 +289,7 @@ def train(
             optimizer.zero_grad()
 
             # Autocast for Mixed Precision
-            with torch.amp.autocast('cuda'):
+            with get_autocast_context():
                 logits = model(batch)
                 loss, loss_dict = criterion(logits, batch)
 

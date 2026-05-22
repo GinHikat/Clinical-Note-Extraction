@@ -72,9 +72,7 @@ if __name__ == "__main__":
     elif args.group == 'all':
         # Standard data/architecture ablations
         experiments = [
-            'last_24h', 'first_48h', 'static_only', 
-            'no_static', 'no_patient', 
-            'no_admission', 
+            # 'last_24h', 'first_48h', 'static_only', 'no_static', 'no_patient', 'no_admission', 
             'no_last_event',
             'no_temporal', 'no_labs', 
             'no_omr',
