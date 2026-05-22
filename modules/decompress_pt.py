@@ -10,19 +10,67 @@ from pathlib import Path
 from tqdm import tqdm
 
 class MockStorage:
-    def __init__(self, dtype, key, numel):
+    def __init__(self, dtype, key, numel, storage_type=None):
         self.dtype = dtype
-        self._untyped_storage = torch.UntypedStorage()
-        self._untyped_storage.storage_key = key
-        self._untyped_storage.numel = numel
+        self.storage_key = key
+        self.numel = numel
+        self.device = torch.device('cpu')
+        
+        self._untyped_storage = None
+        if hasattr(torch, 'UntypedStorage'):
+            try:
+                self._untyped_storage = torch.UntypedStorage()
+            except Exception:
+                pass
+        
+        if self._untyped_storage is None and hasattr(torch, 'storage') and hasattr(torch.storage, '_UntypedStorage'):
+            try:
+                self._untyped_storage = torch.storage._UntypedStorage()
+            except Exception:
+                pass
+                
+        if self._untyped_storage is None and storage_type is not None:
+            try:
+                self._untyped_storage = storage_type()
+            except Exception:
+                pass
+                
+        if self._untyped_storage is not None:
+            try:
+                self._untyped_storage.storage_key = key
+                self._untyped_storage.numel = numel
+            except Exception:
+                pass
+
+    def _untyped(self):
+        return self._untyped_storage if self._untyped_storage is not None else self
+
+TENSOR_STORAGE_MAP = {}
 
 class SimpleUnpickler(pickle.Unpickler):
+    def __init__(self, *args, **kwargs):
+        super().__init__(*args, **kwargs)
+        self.storage_keys = []
+
     def persistent_load(self, pid):
         if isinstance(pid, tuple) and len(pid) >= 5:
             typename, storage_type, key, location, numel = pid[:5]
+            self.storage_keys.append(key)
             dtype = getattr(storage_type, 'dtype', torch.float32)
-            return MockStorage(dtype, key, numel)
+            return MockStorage(dtype, key, numel, storage_type)
         return pid
+
+    def find_class(self, module, name):
+        import torch._utils
+        if module == 'torch._utils' and name.startswith('_rebuild_tensor'):
+            orig_func = getattr(torch._utils, name)
+            def wrapped_rebuild(storage, *args, **kwargs):
+                tensor = orig_func(storage, *args, **kwargs)
+                if isinstance(storage, MockStorage):
+                    TENSOR_STORAGE_MAP[id(tensor)] = storage
+                return tensor
+            return wrapped_rebuild
+        return super().find_class(module, name)
 
 def save_patient(pid, emb_bytes, emb_shape, emb_dtype, dt_bytes, dt_shape, dt_dtype, meta, output_dir):
     # Convert bytes to numpy arrays
@@ -63,6 +111,7 @@ def main():
     with z.open(pkl_name) as f:
         unpickler = SimpleUnpickler(f)
         data = unpickler.load()
+        storage_keys = getattr(unpickler, 'storage_keys', [])
         
     load_time = time.time() - start_load
     print(f'Loaded structure of {len(data):,} patients in {load_time:.2f}s')
@@ -117,8 +166,37 @@ def main():
                 dt_tensor = content['dt']
                 
                 # Get storage keys
-                emb_key = emb_tensor.untyped_storage().storage_key
-                dt_key = dt_tensor.untyped_storage().storage_key
+                emb_key = None
+                dt_key = None
+                
+                # 1. Try to get storage key via custom unpickling registry (100% robust bypass)
+                emb_storage = TENSOR_STORAGE_MAP.get(id(emb_tensor))
+                dt_storage = TENSOR_STORAGE_MAP.get(id(dt_tensor))
+                if emb_storage is not None:
+                    emb_key = emb_storage.storage_key
+                if dt_storage is not None:
+                    dt_key = dt_storage.storage_key
+                
+                # 2. Fallback to sequential list if registry lookup failed
+                if (emb_key is None or dt_key is None) and len(storage_keys) == 2 * num_patients:
+                    try:
+                        emb_key = storage_keys[2 * (idx - 1)]
+                        dt_key = storage_keys[2 * (idx - 1) + 1]
+                    except Exception:
+                        pass
+                
+                # 3. Last resort fallback to extracting from tensor storage
+                if emb_key is None or dt_key is None:
+                    try:
+                        emb_storage_obj = emb_tensor.untyped_storage() if hasattr(emb_tensor, 'untyped_storage') else emb_tensor.storage()
+                        emb_key = getattr(emb_storage_obj, 'storage_key', None) or getattr(emb_storage_obj, '_key', None)
+                    except Exception:
+                        pass
+                    try:
+                        dt_storage_obj = dt_tensor.untyped_storage() if hasattr(dt_tensor, 'untyped_storage') else dt_tensor.storage()
+                        dt_key = getattr(dt_storage_obj, 'storage_key', None) or getattr(dt_storage_obj, '_key', None)
+                    except Exception:
+                        pass
                 
                 # Read bytes from zip streamingly
                 emb_bytes = z.read(f'patient_timelines/data/{emb_key}')
