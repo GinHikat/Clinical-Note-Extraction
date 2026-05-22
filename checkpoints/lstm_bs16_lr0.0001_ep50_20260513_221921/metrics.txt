@@ -1,4 +1,0 @@
-=== TRAINING LOG START ===
-Device: cuda
-Batch size: 16, LR: 0.0001, Epochs: 50
-========================================
