@@ -144,7 +144,7 @@ def main(load_dir=None, truncation_level=200, others_limit=None, epochs=15, mode
             print("Compiling model for ROCm performance (with eager fallback)...")
             # Set matmul precision
             torch.set_float32_matmul_precision('high')
-            pm.model = torch.compile(pm.model)
+            # pm.model = torch.compile(pm.model)
         except Exception as e:
             print(f"torch.compile initialization failed: {e}. Proceeding in eager mode.")
     
@@ -199,14 +199,12 @@ def main(load_dir=None, truncation_level=200, others_limit=None, epochs=15, mode
     # Enable Gradient Checkpointing for Longformer memory efficiency
     pm.model.gradient_checkpointing_enable()
     
-    # Dataloaders 
-    # Dataloaders - Increased for MI300X performance
-    # Longformer with max_length=2048 can easily handle larger batches on 192GB VRAM
-    BATCH_SIZE = 32 
-    NUM_WORKERS = 8
+    # Dataloaders - Optimized for RTX 5060 Ti (16GB)
+    BATCH_SIZE = 8 
+    NUM_WORKERS = 4
     
-    train_dataset = RadiologyDataset(train_df['text'].tolist(), train_df['labels'].tolist(), pm.tokenizer, max_length=2048)
-    val_dataset = RadiologyDataset(val_df['text'].tolist(), val_df['labels'].tolist(), pm.tokenizer, max_length=2048)
+    train_dataset = RadiologyDataset(train_df['text'].tolist(), train_df['labels'].tolist(), pm.tokenizer, max_length=1024)
+    val_dataset = RadiologyDataset(val_df['text'].tolist(), val_df['labels'].tolist(), pm.tokenizer, max_length=1024)
     
     train_loader = DataLoader(train_dataset, batch_size=BATCH_SIZE, shuffle=True, num_workers=NUM_WORKERS, pin_memory=True)
     val_loader = DataLoader(val_dataset, batch_size=BATCH_SIZE, num_workers=NUM_WORKERS, pin_memory=True)
@@ -215,14 +213,14 @@ def main(load_dir=None, truncation_level=200, others_limit=None, epochs=15, mode
     if bnb: optimizer = bnb.optim.AdamW8bit(pm.model.parameters(), lr=1e-5)
     
     EPOCHS = epochs
-    ACCUMULATION_STEPS = 1  # Reduced from 4: MI300 can handle the full batch easily
+    ACCUMULATION_STEPS = 4 # Effective Batch Size = 8 * 4 = 32
     total_steps = (len(train_loader) // ACCUMULATION_STEPS) * EPOCHS
     scheduler = get_linear_schedule_with_warmup(optimizer, num_warmup_steps=0, num_training_steps=total_steps)
     # Use weighted BCE loss to boost confidence for sparse labels
     pos_weight_tensor = torch.tensor(class_weights, dtype=torch.float32).to(pm.device)
     loss_fn = torch.nn.BCEWithLogitsLoss(pos_weight=pos_weight_tensor)
     
-    scaler = torch.cuda.amp.GradScaler()
+    scaler = torch.amp.GradScaler('cuda')
 
     if load_dir and os.path.exists(checkpoint_path):
         optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
@@ -238,6 +236,7 @@ def main(load_dir=None, truncation_level=200, others_limit=None, epochs=15, mode
         total_train_loss = 0
         train_iterator = tqdm(train_loader, desc=f"Training Epoch {epoch+1}")
         
+        optimizer.zero_grad()
         for i, batch in enumerate(train_iterator):
             # Skip steps if resuming
             if epoch == start_epoch and i < start_step:
@@ -246,13 +245,11 @@ def main(load_dir=None, truncation_level=200, others_limit=None, epochs=15, mode
             attention_mask = batch['attention_mask'].to(pm.device)
             labels = batch['labels'].to(pm.device)
             
-            # Use bfloat16 for ROCm/MI300 performance
-            with torch.cuda.amp.autocast(dtype=torch.bfloat16):
+            # Modern AMP syntax for ROCm/CUDA
+            with torch.amp.autocast('cuda', dtype=torch.bfloat16):
                 outputs = pm.model(input_ids=input_ids, attention_mask=attention_mask)
                 loss = loss_fn(outputs.logits, labels)
-                # No scaling needed if accumulation is 1, but keeping logic for safety
-                if ACCUMULATION_STEPS > 1:
-                    loss = loss / ACCUMULATION_STEPS
+                loss = loss / ACCUMULATION_STEPS
             
             scaler.scale(loss).backward()
             
@@ -299,14 +296,14 @@ def main(load_dir=None, truncation_level=200, others_limit=None, epochs=15, mode
                 attention_mask = batch['attention_mask'].to(pm.device)
                 labels = batch['labels'].to(pm.device)
                 
-                with torch.cuda.amp.autocast(dtype=torch.bfloat16):
+                with torch.amp.autocast('cuda', dtype=torch.bfloat16):
                     outputs = pm.model(input_ids=input_ids, attention_mask=attention_mask)
                     logits = outputs.logits
                     loss = loss_fn(logits, labels)
                     
                 total_val_loss += loss.item()
-                all_logits.append(logits.cpu().numpy())
-                all_labels.append(labels.cpu().numpy())
+                all_logits.append(logits.cpu().float().numpy())
+                all_labels.append(labels.cpu().float().numpy())
                 
         avg_val_loss = total_val_loss / len(val_loader)
 

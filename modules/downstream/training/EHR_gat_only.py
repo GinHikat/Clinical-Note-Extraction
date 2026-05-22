@@ -74,7 +74,7 @@ def main():
     dataset = EHRDataset(
         admissions_df=train_df, timeline_dir=TIMELINE_DIR, admission_nodes=admission_nodes,
         diag_to_idx=diag_to_idx, drug_to_idx=drug_to_idx, patient_cache=patient_cache,
-        admission_cache=admission_cache, max_len=512
+        admission_cache=admission_cache, max_len=None
     )
     loader = DataLoader(dataset, batch_size=args.batch_size, shuffle=False, collate_fn=ehr_collate_fn)
 
