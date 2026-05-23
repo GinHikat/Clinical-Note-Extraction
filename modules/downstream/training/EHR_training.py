@@ -18,8 +18,18 @@ import json as json_lib
 from pathlib import Path
 from dotenv import load_dotenv
 import argparse
+from contextlib import contextmanager
 
 load_dotenv()
+
+@contextmanager
+def autocast_context(device_type='cuda'):
+    if hasattr(torch, 'amp') and hasattr(torch.amp, 'autocast'):
+        with torch.amp.autocast(device_type):
+            yield
+    else:
+        with torch.cuda.amp.autocast():
+            yield
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.abspath(os.path.join(current_dir, "../../../"))
@@ -117,7 +127,7 @@ def evaluate(model, loader, criterion, device):
             if batch is None: continue
             batch = {k: v.to(device) if isinstance(v, torch.Tensor) else v for k, v in batch.items()}
             
-            with torch.amp.autocast('cuda'):
+            with autocast_context('cuda'):
                 logits = model(batch)
                 loss, loss_dict = criterion(logits, batch)
                 
@@ -237,8 +247,11 @@ def train(
     history           = []
     recent_checkpoints = [] # Keep last 10 epoch checkpoints in CPU memory for Stochastic Weight Averaging (SWA)
     
-    # Mixed Precision Scaler
-    scaler = torch.amp.GradScaler('cuda')
+    # Mixed Precision Scaler (Version-Agnostic)
+    if hasattr(torch, 'amp') and hasattr(torch.amp, 'GradScaler'):
+        scaler = torch.amp.GradScaler('cuda')
+    else:
+        scaler = torch.cuda.amp.GradScaler()
 
     # Initialize/Clear metrics log file only if starting from scratch
     log_mode = 'w' if start_epoch == 1 else 'a'
@@ -277,7 +290,7 @@ def train(
             optimizer.zero_grad()
 
             # Autocast for Mixed Precision
-            with torch.amp.autocast('cuda'):
+            with autocast_context('cuda'):
                 logits = model(batch)
                 loss, loss_dict = criterion(logits, batch)
 
