@@ -1,8 +1,11 @@
+--extra-index-url https://download.pytorch.org/whl/cu124
 pandas
 numpy
 matplotlib
 scikit-learn
-torch
+torch>=2.4.0
+torchvision
+torchaudio
 transformers
 python-dotenv
 jupyter
