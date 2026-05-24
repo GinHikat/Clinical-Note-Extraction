@@ -481,11 +481,11 @@ if __name__ == '__main__':
         drug_to_idx = json_lib.load(f)
 
     try:
-        patient_cache   = torch.load(PATIENT_CACHE_PATH, map_location='cpu', mmap=True)
-        admission_cache = torch.load(ADMISSION_CACHE_PATH, map_location='cpu', mmap=True)
+        patient_cache   = torch.load(PATIENT_CACHE_PATH, map_location='cpu', mmap=True, weights_only=False)
+        admission_cache = torch.load(ADMISSION_CACHE_PATH, map_location='cpu', mmap=True, weights_only=False)
     except Exception:
-        patient_cache   = torch.load(PATIENT_CACHE_PATH, map_location='cpu')
-        admission_cache = torch.load(ADMISSION_CACHE_PATH, map_location='cpu')
+        patient_cache   = torch.load(PATIENT_CACHE_PATH, map_location='cpu', weights_only=False)
+        admission_cache = torch.load(ADMISSION_CACHE_PATH, map_location='cpu', weights_only=False)
 
     print('Building datasets...')
     train_dataset = EHRDataset(
@@ -572,7 +572,7 @@ if __name__ == '__main__':
         
         if os.path.exists(ckpt_path):
             print(f"Resuming from checkpoint: {ckpt_path}")
-            state_dict = torch.load(ckpt_path, map_location=DEVICE)
+            state_dict = torch.load(ckpt_path, map_location=DEVICE, weights_only=True)
             model.load_state_dict(state_dict)
         else:
             print(f"ERROR: Checkpoint file '{ckpt_path}' not found!")
@@ -679,7 +679,7 @@ if __name__ == '__main__':
     best_model_path = os.path.join(CHECKPOINT_DIR, 'best_model.pt')
     best_metrics = None
     if os.path.exists(best_model_path):
-        model.load_state_dict(torch.load(best_model_path, map_location=DEVICE))
+        model.load_state_dict(torch.load(best_model_path, map_location=DEVICE, weights_only=True))
         print(f"Loaded best validation model weights from {best_model_path}")
         best_metrics = evaluate(model, test_loader, criterion, DEVICE)
 
@@ -687,7 +687,7 @@ if __name__ == '__main__':
     swa_model_path = os.path.join(CHECKPOINT_DIR, 'swa_model.pt')
     swa_metrics = None
     if os.path.exists(swa_model_path):
-        model.load_state_dict(torch.load(swa_model_path, map_location=DEVICE))
+        model.load_state_dict(torch.load(swa_model_path, map_location=DEVICE, weights_only=True))
         print(f"Loaded SWA model weights from {swa_model_path}")
         swa_metrics = evaluate(model, test_loader, criterion, DEVICE)
 
