@@ -155,33 +155,33 @@ def evaluate(model, loader, criterion, device):
 
             # Mortality
             if 'mortality' in logits:
-                all_logits['mortality'].append(torch.sigmoid(logits['mortality']).squeeze(1).cpu().numpy())
+                all_logits['mortality'].append(torch.sigmoid(logits['mortality']).squeeze(1).float().cpu().numpy())
                 all_labels['mortality'].append(batch['mortality'].cpu().numpy())
 
             # LOS
             if 'los_7d' in logits:
-                all_logits['los_7d'].append(torch.sigmoid(logits['los_7d']).squeeze(1).cpu().numpy())
+                all_logits['los_7d'].append(torch.sigmoid(logits['los_7d']).squeeze(1).float().cpu().numpy())
                 all_labels['los_7d'].append(batch['los_7d'].cpu().numpy())
 
             # Readmission (Mask missing -1 labels)
             if 'readmission' in logits:
                 readm_mask = batch['readmission'] >= 0
                 if readm_mask.any():
-                    all_logits['readmission'].append(torch.sigmoid(logits['readmission']).squeeze(1)[readm_mask].cpu().numpy())
+                    all_logits['readmission'].append(torch.sigmoid(logits['readmission']).squeeze(1)[readm_mask].float().cpu().numpy())
                     all_labels['readmission'].append(batch['readmission'][readm_mask].cpu().numpy())
 
             # Progression (Mask empty samples)
             if 'progression' in logits:
                 prog_mask = batch['progression'].sum(dim=-1) > 0
                 if prog_mask.any():
-                    all_logits['progression'].append(torch.sigmoid(logits['progression'])[prog_mask].cpu().numpy())
+                    all_logits['progression'].append(torch.sigmoid(logits['progression'])[prog_mask].float().cpu().numpy())
                     all_labels['progression'].append(batch['progression'][prog_mask].cpu().numpy())
 
             # Drug rec (Mask empty samples)
             if 'drug_rec' in logits:
                 drug_mask = batch['drug_rec'].sum(dim=-1) > 0
                 if drug_mask.any():
-                    all_logits['drug_rec'].append(torch.sigmoid(logits['drug_rec'])[drug_mask].cpu().numpy())
+                    all_logits['drug_rec'].append(torch.sigmoid(logits['drug_rec'])[drug_mask].float().cpu().numpy())
                     all_labels['drug_rec'].append(batch['drug_rec'][drug_mask].cpu().numpy())
 
     metrics = {}
