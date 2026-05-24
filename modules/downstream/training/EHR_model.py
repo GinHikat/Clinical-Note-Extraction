@@ -493,7 +493,13 @@ class EHRTransformer(nn.Module):
             # x_full: (B, T+2, HIDDEN_SIZE)
             trans_out = x_full 
         else:
-            trans_out = self.transformer(x_full, src_key_padding_mask=mask)
+            if self.use_gradient_checkpointing and self.training:
+                from torch.utils.checkpoint import checkpoint
+                def trans_forward(x_in, mask_in):
+                    return self.transformer(x_in, src_key_padding_mask=mask_in)
+                trans_out = checkpoint(trans_forward, x_full, mask, use_reentrant=False)
+            else:
+                trans_out = self.transformer(x_full, src_key_padding_mask=mask)
 
         # Hybrid Global Representation
         # Use the Patient_Token (index 0) as it has now attended to everything
@@ -580,6 +586,8 @@ class EHRTransformerBase(nn.Module):
         )
         self.transformer = nn.TransformerEncoder(encoder_layer, num_layers=3)
 
+        self.use_gradient_checkpointing = False
+
         # Projection: concat(transformer_out, patient, admission) -> shared repr
         # 256 (Hidden) + 64 (Patient) + 64 (Admission) = 384
         concat_dim = HIDDEN_SIZE + STATIC_DIM + STATIC_DIM 
@@ -622,7 +630,13 @@ class EHRTransformerBase(nn.Module):
             mask[i, length:] = True
         
         # Transformer Pass
-        trans_out = self.transformer(x, src_key_padding_mask=mask)
+        if self.use_gradient_checkpointing and self.training:
+            from torch.utils.checkpoint import checkpoint
+            def trans_forward(x_in, mask_in):
+                return self.transformer(x_in, src_key_padding_mask=mask_in)
+            trans_out = checkpoint(trans_forward, x, mask, use_reentrant=False)
+        else:
+            trans_out = self.transformer(x, src_key_padding_mask=mask)
 
         # Global Representation: Slice at the last real token (DISCHARGE position)
         idx          = (lengths - 1).clamp(min=0)

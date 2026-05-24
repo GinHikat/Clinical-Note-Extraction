@@ -11,7 +11,7 @@ def run_experiment(mode, epochs=10, batch_size=64, num_workers=4, model_type='ls
     print(f"="*50)
     
     cmd = [
-        "python3", "modules/downstream/training/EHR_training.py",
+        sys.executable, "modules/downstream/training/EHR_training.py",
         "--model_type", model_type,
         "--epochs", str(epochs),
         "--batch_size", str(batch_size),
@@ -40,11 +40,21 @@ if __name__ == "__main__":
     parser.add_argument('--group', type=str, choices=['leakage', 'static', 'temporal', 'modality', 'independent', 'equal_loss', 'extended', 'extended', 'all'], default='leakage')
     parser.add_argument('--epochs', type=int, default=10)
     parser.add_argument('--batch_size', type=int, default=64)
-    parser.add_argument('--num_workers', type=int, default=0)
+    parser.add_argument('--num_workers', type=int, default=8)
     parser.add_argument('--patience', type=int, default=20, help='Early stopping patience')
     parser.add_argument('--model_type', type=str, default='lstm', choices=['lstm', 'transformer', 'transformer_base'], help='Model type to use for ablation studies')
     parser.add_argument('--no_focal_loss', action='store_true', help='Disable Focal Loss and use standard BCE instead')
     args = parser.parse_args()
+
+    # Dynamic Batch Size Optimization for RTX 3060 Ti 8GB VRAM
+    # If the user leaves it at default (64), upscale to maximize memory bandwidth & Tensor Cores
+    if args.batch_size == 64:
+        if args.model_type == 'lstm':
+            args.batch_size = 256
+            print("Optimizing default batch_size to 256 for LSTM to maximize RTX 3060 Ti memory bandwidth.")
+        elif args.model_type in ['transformer', 'transformer_base']:
+            args.batch_size = 128
+            print("Optimizing default batch_size to 128 for Transformer (utilizing gradient checkpointing).")
     
     # Enable Focal Loss by default unless --no_focal_loss is set
     use_focal_loss = not args.no_focal_loss
