@@ -35,13 +35,16 @@ def get_autocast_dtype():
 
 @contextmanager
 def autocast_context(device_type='cuda'):
-    dtype = get_autocast_dtype()
-    if hasattr(torch, 'amp') and hasattr(torch.amp, 'autocast'):
-        with torch.amp.autocast(device_type, dtype=dtype):
-            yield
+    if device_type == 'cuda' and not torch.cuda.is_available():
+        yield
     else:
-        with torch.cuda.amp.autocast(dtype=dtype):
-            yield
+        dtype = get_autocast_dtype()
+        if hasattr(torch, 'amp') and hasattr(torch.amp, 'autocast'):
+            with torch.amp.autocast(device_type, dtype=dtype):
+                yield
+        else:
+            with torch.cuda.amp.autocast(dtype=dtype):
+                yield
 
 current_dir = os.path.dirname(os.path.abspath(__file__))
 project_root = os.path.abspath(os.path.join(current_dir, "../../../"))
@@ -265,9 +268,9 @@ def train(
     
     # Mixed Precision Scaler (Version-Agnostic)
     if hasattr(torch, 'amp') and hasattr(torch.amp, 'GradScaler'):
-        scaler = torch.amp.GradScaler('cuda')
+        scaler = torch.amp.GradScaler('cuda', enabled=(DEVICE.type == 'cuda'))
     else:
-        scaler = torch.cuda.amp.GradScaler()
+        scaler = torch.cuda.amp.GradScaler(enabled=(DEVICE.type == 'cuda'))
 
     # Initialize/Clear metrics log file only if starting from scratch
     log_mode = 'w' if start_epoch == 1 else 'a'
@@ -576,7 +579,7 @@ if __name__ == '__main__':
             sys.exit(1)
 
     # PyTorch 2.0+ torch.compile speedup (Ampere optimized)
-    if hasattr(torch, 'compile'):
+    if hasattr(torch, 'compile') and DEVICE.type == 'cuda' and args.model_type != 'lstm':
         import shutil
         has_compiler = shutil.which("gcc") is not None or shutil.which("clang") is not None
         if has_compiler:
