@@ -92,7 +92,7 @@ def save_patient(pid, emb_bytes, emb_shape, emb_dtype, dt_bytes, dt_shape, dt_dt
     return emb.nbytes / (1024 ** 2)
 
 def main():
-    input_path = './data/patient_timelines_new.pt'
+    input_path = './data/Timeline/patient_timelines_new.pt'
     output_dir = Path('./data/Timeline_new')
     start_total = time.time()
     
