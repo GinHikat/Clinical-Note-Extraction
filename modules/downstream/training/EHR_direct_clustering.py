@@ -22,7 +22,7 @@ import argparse
 def parse_args():
     parser = argparse.ArgumentParser(description='EHR Direct Clustering Sweep')
     parser.add_argument('--model_path', type=str, required=True, help='Path to best_model.pt')
-    parser.add_argument('--model_type', type=str, default='transformer', choices=['transformer', 'transformer_base'], help='Model type')
+    parser.add_argument('--model_type', type=str, default='transformer', choices=['lstm', 'transformer', 'transformer_base'], help='Model type')
     parser.add_argument('--k_list', type=int, nargs='+', default=[2, 4, 6, 8, 10, 12], help='List of K values to test')
     parser.add_argument('--level', type=str, default='admission', choices=['admission', 'patient'], help='Cluster level: admission or patient')
     parser.add_argument('--batch_size', type=int, default=128)
@@ -37,6 +37,8 @@ def main():
     print(f"Loading {args.model_type} model from {args.model_path}...")
     if args.model_type == 'transformer_base':
         model = EHRTransformerBase().to(device)
+    elif args.model_type == 'lstm':
+        model = EHRModel().to(device)
     else:
         model = EHRTransformer().to(device)
     model.load_state_dict(torch.load(args.model_path, map_location=device))
@@ -44,7 +46,9 @@ def main():
     
     # 2. Extract Embeddings
     downstream_data_path = os.path.join(project_root, 'data', 'Timeline')
-    TIMELINE_DIR = os.path.join(project_root, 'data', 'Timelines')
+    TIMELINE_DIR = os.path.join(project_root, 'data', 'Timeline_new')
+    if not os.path.exists(TIMELINE_DIR):
+        TIMELINE_DIR = os.path.join(project_root, 'data', 'Timeline')
     ADMISSION_NODES_PATH = os.path.join(downstream_data_path, 'admission_nodes.json')
     DIAG_VOCAB_PATH      = os.path.join(downstream_data_path, 'top200_diag_vocab.json')
     TRAIN_DF_PATH        = os.path.join(downstream_data_path, 'models', 'train_df.csv')

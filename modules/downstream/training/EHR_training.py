@@ -65,7 +65,7 @@ def parse_args():
     parser.add_argument('--epochs', type=int, default=50, help='Number of epochs')
     parser.add_argument('--patience', type=int, default=20, help='Early stopping patience')
     parser.add_argument('--grad_clip', type=float, default=1.0, help='Gradient clipping')
-    parser.add_argument('--num_workers', type=int, default=4, help='Number of workers for data loading')
+    parser.add_argument('--num_workers', type=int, default=0, help='Number of workers for data loading')
     parser.add_argument('--threshold', type=float, default=0.6, help='Classification threshold')
     parser.add_argument('--resume_from', type=str, default=None, help='Path to best_model.pt to resume from')
     parser.add_argument('--start_epoch', type=int, default=1, help='Epoch to start from')
@@ -119,10 +119,6 @@ MAX_LEN       = 644 # Bounded at 99th percentile to prevent padding overhead
 
 DEVICE = torch.device('cuda' if torch.cuda.is_available() else 'cpu')
 print(f'Using device: {DEVICE}')
-if DEVICE.type == 'cuda':
-    torch.backends.cuda.matmul.allow_tf32 = True
-    torch.backends.cudnn.allow_tf32 = True
-    print('✓ Ampere TF32 (TensorFloat-32) enabled for maximum training speed.')
 print(f'Project root: {project_root}')
 # print(f'DATA_DIR: {data_dir}')
 print(f'TIMELINE_DIR: {TIMELINE_DIR}')
@@ -551,15 +547,7 @@ if __name__ == '__main__':
     else:
         model = EHRModel(target_task=args.task).to(DEVICE)
     
-    # Auto-enable gradient checkpointing on <=8GB cards (like RTX 3070) to prevent OOM
-    auto_checkpointing = False
-    if torch.cuda.is_available():
-        vram_gb = torch.cuda.get_device_properties(0).total_memory / (1024 ** 3)
-        if vram_gb <= 8.5:
-            auto_checkpointing = True
-            print(f"Detected 8GB GPU VRAM ({vram_gb:.1f} GB). Auto-enabling Gradient Checkpointing.")
-    
-    model.use_gradient_checkpointing = auto_checkpointing
+    model.use_gradient_checkpointing = False
     print(f'Model parameters: {sum(p.numel() for p in model.parameters()):,}')
     print(f'Gradient checkpointing: {model.use_gradient_checkpointing}')
 
@@ -591,7 +579,6 @@ if __name__ == '__main__':
                 print(f"torch.compile failed: {e}. Running in eager mode.")
         else:
             print("No C compiler (gcc/clang) found in system PATH. Skipping torch.compile (running in eager mode).")
-
     # Pos weights
     if args.no_pos_weight:
         pw_mort = pw_los = pw_readm = 1.0
@@ -618,18 +605,10 @@ if __name__ == '__main__':
     alpha_params = [p for n, p in model.named_parameters() if 'alpha' in n]
     base_params  = [p for n, p in model.named_parameters() if 'alpha' not in n]
     
-    # Use 8-bit AdamW on 8GB GPUs for massive memory savings
-    if bnb and torch.cuda.is_available() and torch.cuda.get_device_properties(0).total_memory / (1024**3) <= 8.5:
-        print("Using 8-bit AdamW optimizer from bitsandbytes for 8GB GPU memory savings.")
-        optimizer = bnb.optim.AdamW8bit([
-            {'params': base_params,  'lr': LR},
-            {'params': alpha_params, 'lr': LR * 10} # Fast convergence for learnable alphas
-        ], weight_decay=WEIGHT_DECAY)
-    else:
-        optimizer = torch.optim.AdamW([
-            {'params': base_params,  'lr': LR},
-            {'params': alpha_params, 'lr': LR * 10} # Fast convergence for learnable alphas
-        ], weight_decay=WEIGHT_DECAY)
+    optimizer = torch.optim.AdamW([
+        {'params': base_params,  'lr': LR},
+        {'params': alpha_params, 'lr': LR * 10} # Fast convergence for learnable alphas
+    ], weight_decay=WEIGHT_DECAY)
 
     scheduler = torch.optim.lr_scheduler.ReduceLROnPlateau(
         optimizer, mode='max', factor=0.5, patience=3

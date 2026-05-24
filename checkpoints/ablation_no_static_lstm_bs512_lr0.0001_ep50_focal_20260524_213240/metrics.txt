@@ -1,0 +1,23 @@
+
+=== RESUMING FROM EPOCH 22 ===
+
+Epoch  22 | Train loss: 4.0652 | Val mean AUROC: 0.7497
+
+[MORTALITY]
+AUROC: 0.9474 | AUPR: 0.6119 | F1: 0.2351
+
+[LOS > 7 DAYS]
+AUROC: 0.7762 | AUPR: 0.5457 | F1: 0.4469
+
+[READMISSION]
+AUROC: 0.7448 | AUPR: 0.5733 | F1: 0.4632
+
+[PROGRESSION]
+AUROC: 0.6593 | AUPR: 0.0694 | F1: 0.1106
+
+[DRUG RECOMMENDATION]
+AUROC: 0.6207 | AUPR: 0.3271 | F1: 0.3855
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.850 | readm: 0.830 | prog: 1.262 | drug: 1.111
+========================================

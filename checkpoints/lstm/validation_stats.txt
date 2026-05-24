@@ -1,0 +1,32 @@
+=== CLUSTERING VALIDATION RESULTS ===
+Log-rank p-value: 0.0000000000
+Purity (vs DRG Severity): 0.4410
+NMI: 0.1136
+ARI: 0.0786
+
+=== CLUSTER CLINICAL PROFILES ===
+
+Cluster 0:
+  Top Diagnoses: DEssential (Primary) Hypertension, DUnspecified Essential Hypertension, DHyperlipidemia, Unspecified, DGastro-Esophageal Reflux Disease Without Esophagitis, DPersonal History Of Nicotine Dependence, DOther And Unspecified Hyperlipidemia, DEsophageal Reflux, DMajor Depressive Disorder, Single Episode, Unspecified, DObesity, Unspecified, DAnxiety Disorder, Unspecified
+  Top Drugs:     RxAcetaminophen, RxHeparin, RxDocusate, RxDextrose, Unspecified Form, RxSenna Extract, RxOndansetron, RxOxycodone, RxAcetylsalicylic Acid, RxPotassium Lactate, RxBisacodyl
+
+Cluster 1:
+  Top Diagnoses: DUnspecified Essential Hypertension, DEssential (Primary) Hypertension, DMajor Depressive Disorder, Single Episode, Unspecified, DAnxiety Disorder, Unspecified, DHyperlipidemia, Unspecified, DSuicidal Ideations, DContact With And (Suspected) Exposure To Covid-19, DDepressive Disorder, Not Elsewhere Classified, DSuicidal Ideation, DNicotine Dependence, Cigarettes, Uncomplicated
+  Top Drugs:     RxAcetaminophen, RxDocusate, RxHeparin, RxSenna Extract, RxOndansetron, RxDextrose, Unspecified Form, RxOxycodone, RxBisacodyl, RxPotassium Lactate, RxLorazepam
+
+Cluster 2:
+  Top Diagnoses: DHyperlipidemia, Unspecified, DPersonal History Of Nicotine Dependence, DEssential (Primary) Hypertension, DAcute Kidney Failure, Unspecified, DGastro-Esophageal Reflux Disease Without Esophagitis, DAtherosclerotic Heart Disease Of Native Coronary Artery Without Angina Pectoris, DLong Term (Current) Use Of Anticoagulants, DLong Term (Current) Use Of Insulin, DMajor Depressive Disorder, Single Episode, Unspecified, DAnxiety Disorder, Unspecified
+  Top Drugs:     RxAcetaminophen, RxDextrose, Unspecified Form, RxHeparin, RxSenna Extract, RxPotassium Chloride, RxDocusate, RxMagnesium Sulfate, RxBage Protein, Human, RxOndansetron, RxGlucagon
+
+Cluster 3:
+  Top Diagnoses: DUnspecified Essential Hypertension, DOther And Unspecified Hyperlipidemia, DCongestive Heart Failure, Unspecified, DEsophageal Reflux, DAtrial Fibrillation, DDiabetes Mellitus Without Mention Of Complication, Type Ii Or Unspecified Type, Not Stated As Uncontrolled, DCoronary Atherosclerosis Of Native Coronary Artery, DAcute Kidney Failure, Unspecified, DPersonal History Of Tobacco Use, DDepressive Disorder, Not Elsewhere Classified
+  Top Drugs:     RxAcetaminophen, RxHeparin, RxDocusate, RxDextrose, Unspecified Form, RxSenna Extract, RxOndansetron, RxPotassium Chloride, RxInsulin, RxMetoprolol, RxAcetylsalicylic Acid
+
+
+=== OUTCOME SUMMARY ===
+         N_Patients  Avg_Admissions  Mean_LOS    Avg_Age
+cluster                                                 
+0             37403        4.398792  3.058209  53.813063
+1             15779        2.397490  3.015748  47.488307
+2             19599        5.090872  8.826980  63.837135
+3             22655        4.346458  5.529547  64.373339

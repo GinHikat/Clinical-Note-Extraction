@@ -4,4 +4,4 @@ secrets/
 __pycache__/
 models/
 
-checkpoints/*
+# checkpoints/*

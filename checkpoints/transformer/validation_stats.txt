@@ -1,0 +1,42 @@
+=== CLUSTERING VALIDATION RESULTS ===
+Log-rank p-value: 0.0000000000
+Purity (vs DRG Severity): 0.3604
+NMI: 0.0303
+ARI: 0.0140
+
+=== CLUSTER CLINICAL PROFILES ===
+
+Cluster 0:
+  Top Diagnoses: DUnspecified Essential Hypertension, DEssential (Primary) Hypertension, DHyperlipidemia, Unspecified, DPersonal History Of Nicotine Dependence, DOther And Unspecified Hyperlipidemia, DAcute Kidney Failure, Unspecified, DGastro-Esophageal Reflux Disease Without Esophagitis, DMajor Depressive Disorder, Single Episode, Unspecified, DAnxiety Disorder, Unspecified, DEsophageal Reflux
+  Top Drugs:     RxAcetaminophen, RxHeparin, RxDextrose, Unspecified Form, RxDocusate, RxSenna Extract, RxOndansetron, RxPotassium Chloride, RxOxycodone, RxMagnesium Sulfate, RxAcetylsalicylic Acid
+
+Cluster 1:
+  Top Diagnoses: DUnspecified Essential Hypertension, DAcute Kidney Failure, Unspecified, DHyperlipidemia, Unspecified, DEssential (Primary) Hypertension, DOther And Unspecified Hyperlipidemia, DPersonal History Of Nicotine Dependence, DCongestive Heart Failure, Unspecified, DAnemia, Unspecified, DAtrial Fibrillation, DGastro-Esophageal Reflux Disease Without Esophagitis
+  Top Drugs:     RxAcetaminophen, RxHeparin, RxDextrose, Unspecified Form, RxSenna Extract, RxDocusate, RxPotassium Chloride, RxOndansetron, RxMagnesium Sulfate, RxInsulin, RxMetoprolol
+
+Cluster 2:
+  Top Diagnoses: DUnspecified Essential Hypertension, DHyperlipidemia, Unspecified, DEssential (Primary) Hypertension, DAcute Kidney Failure, Unspecified, DPersonal History Of Nicotine Dependence, DOther And Unspecified Hyperlipidemia, DGastro-Esophageal Reflux Disease Without Esophagitis, DAnemia, Unspecified, DEsophageal Reflux, DAtrial Fibrillation
+  Top Drugs:     RxAcetaminophen, RxHeparin, RxDextrose, Unspecified Form, RxDocusate, RxSenna Extract, RxOndansetron, RxPotassium Chloride, RxMagnesium Sulfate, RxOxycodone, RxInsulin
+
+Cluster 3:
+  Top Diagnoses: DUnspecified Essential Hypertension, DHyperlipidemia, Unspecified, DEssential (Primary) Hypertension, DAcute Kidney Failure, Unspecified, DPersonal History Of Nicotine Dependence, DOther And Unspecified Hyperlipidemia, DGastro-Esophageal Reflux Disease Without Esophagitis, DAnemia, Unspecified, DEsophageal Reflux, DAtherosclerotic Heart Disease Of Native Coronary Artery Without Angina Pectoris
+  Top Drugs:     RxAcetaminophen, RxHeparin, RxDextrose, Unspecified Form, RxDocusate, RxSenna Extract, RxOndansetron, RxPotassium Chloride, RxMagnesium Sulfate, RxOxycodone, RxInsulin
+
+Cluster 4:
+  Top Diagnoses: DUnspecified Essential Hypertension, DHyperlipidemia, Unspecified, DEssential (Primary) Hypertension, DOther And Unspecified Hyperlipidemia, DGastro-Esophageal Reflux Disease Without Esophagitis, DEsophageal Reflux, DAcute Kidney Failure, Unspecified, DPersonal History Of Nicotine Dependence, DDiabetes Mellitus Without Mention Of Complication, Type Ii Or Unspecified Type, Not Stated As Uncontrolled, DAtherosclerotic Heart Disease Of Native Coronary Artery Without Angina Pectoris
+  Top Drugs:     RxAcetaminophen, RxHeparin, RxDextrose, Unspecified Form, RxDocusate, RxSenna Extract, RxOndansetron, RxAcetylsalicylic Acid, RxInsulin, RxPotassium Chloride, RxOxycodone
+
+Cluster 5:
+  Top Diagnoses: DOutcome Of Delivery, Single Liveborn, DSingle Live Birth, DOther Current Conditions Classifiable Elsewhere Of Mother, Delivered, With Or Without Mention Of Antepartum Condition, DSecond-Degree Perineal Laceration, Delivered, With Or Without Mention Of Antepartum Condition, DCarrier Or Suspected Carrier Of Group B Streptococcus, D39 Weeks Gestation Of Pregnancy, DSecond Degree Perineal Laceration During Delivery, DStreptococcus B Carrier State Complicating Childbirth, DAbnormality In Fetal Heart Rate And Rhythm Complicating Labor And Delivery, DElderly Multigravida, Delivered With Or Without Mention Of Antepartum Condition
+  Top Drugs:     RxAcetaminophen, RxDocusate, RxIbuprofen, RxCalcium Carbonate, RxSimethicone, RxBisacodyl, RxMagnolin, RxPotassium Lactate, RxOndansetron, RxOxycodone/Acetaminophen
+
+
+=== OUTCOME SUMMARY ===
+         N_Patients  Avg_Admissions  Mean_LOS    Avg_Age
+cluster                                                 
+0             19920        3.911345  4.197289  55.282129
+1             14819        3.208786  7.243863  64.819084
+2              8565        3.481261  5.646300  61.396147
+3             21501        3.939073  5.238228  58.582950
+4             25288        5.741102  3.636961  57.924154
+5              5207        2.748992  3.039644  29.396389

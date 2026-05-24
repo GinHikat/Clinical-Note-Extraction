@@ -109,16 +109,30 @@ def main():
     kmf = KaplanMeierFitter()
     plt.figure(figsize=(12, 8))
     
+    # Consistent publication-grade dark colors and names matching the t-SNE plot
+    cluster_colors = {0: '#2B5C8F', 1: '#9E2A2B', 2: '#D98A00', 3: '#6A3D9A'}
+    cluster_labels = {
+        0: 'Cluster 0: Cardiometabolic Early-Symptoms',
+        1: 'Cluster 1: Psychiatric Crisis',
+        2: 'Cluster 2: End-stage Cardiometabolic',
+        3: 'Cluster 3: Cardiorenal Failure'
+    }
+    
     for cluster in sorted(df['cluster'].unique()):
         c_df = df[df['cluster'] == cluster]
-        kmf.fit(c_df['length_of_stay'], event_observed=c_df['inhospital_dead'], label=f'Cluster {cluster}')
-        kmf.plot_survival_function()
+        c_num = int(cluster)
+        color = cluster_colors.get(c_num, '#333333')
+        label = cluster_labels.get(c_num, f'Cluster {cluster}')
         
-    plt.title('Kaplan-Meier Survival Curves per Cluster')
-    plt.xlabel('Days in Hospital')
-    plt.ylabel('Survival Probability')
-    plt.grid(True)
-    plt.savefig(os.path.join(output_dir, 'km_survival_clusters.png'))
+        kmf.fit(c_df['length_of_stay'], event_observed=c_df['inhospital_dead'], label=label)
+        kmf.plot_survival_function(color=color, linewidth=2.5)
+        
+    plt.title('Kaplan-Meier Survival Curves per Cluster', fontsize=14, fontweight='bold', pad=15)
+    plt.xlabel('Days in Hospital', fontsize=12, fontweight='bold', labelpad=8)
+    plt.ylabel('Survival Probability', fontsize=12, fontweight='bold', labelpad=8)
+    plt.grid(True, linestyle='--', alpha=0.5)
+    plt.legend(fontsize=11, frameon=True, shadow=False)
+    plt.savefig(os.path.join(output_dir, 'km_survival_clusters.png'), dpi=300, bbox_inches='tight')
     
     # Log-rank test
     results = multivariate_logrank_test(df['length_of_stay'], df['cluster'], df['inhospital_dead'])
