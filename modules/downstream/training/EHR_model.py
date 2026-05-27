@@ -480,12 +480,10 @@ class EHRTransformer(nn.Module):
         # 5. Prepend Static Context Tokens
         x_full = torch.cat([p_tok, a_tok, x], dim=1) # (B, T+2, 256)
         
-        # Masking
+        # Vectorized mask creation to avoid CPU loops and run fully on GPU
         B, T_full, _ = x_full.shape
-        # Adjust mask to account for 2 prepended tokens (which are never masked)
-        mask = torch.zeros((B, T_full), dtype=torch.bool, device=x.device)
-        for i, length in enumerate(lengths):
-            mask[i, length+2:] = True
+        range_tensor = torch.arange(T_full, device=x.device).unsqueeze(0)
+        mask = range_tensor >= (lengths.unsqueeze(1).to(x.device) + 2)
         
         # Transformer or MLP Pass
         if batch.get('ablation_mode') == 'no_temporal':
@@ -615,11 +613,10 @@ class EHRTransformerBase(nn.Module):
         x = self.input_proj(emb)                # (B, T, 256)
         x = self.pos_encoder(x)
         
-        # Masking
+        # Masking (Vectorized)
         B, T, _ = x.shape
-        mask = torch.zeros((B, T), dtype=torch.bool, device=x.device)
-        for i, length in enumerate(lengths):
-            mask[i, length:] = True
+        range_tensor = torch.arange(T, device=x.device).unsqueeze(0)
+        mask = range_tensor >= lengths.unsqueeze(1).to(x.device)
         
         # Transformer Pass
         trans_out = self.transformer(x, src_key_padding_mask=mask)
@@ -832,11 +829,9 @@ class ClinicalGAT(nn.Module):
         k = self.k(nodes).view(b, n, self.heads, self.head_dim).transpose(1, 2)
         v = self.v(nodes).view(b, n, self.heads, self.head_dim).transpose(1, 2)
         
-        # Attention scores (B, Heads, N, N)
-        attn = (q @ k.transpose(-2, -1)) / (self.head_dim ** 0.5)
-        attn = torch.softmax(attn, dim=-1)
-        
-        out = (attn @ v).transpose(1, 2).reshape(b, n, c)
+        # Fused native PyTorch Scaled Dot-Product Attention for ROCm/MI300X acceleration
+        out = torch.nn.functional.scaled_dot_product_attention(q, k, v)
+        out = out.transpose(1, 2).reshape(b, n, c)
         out = self.ln(nodes + self.out_proj(out))
         return out
 

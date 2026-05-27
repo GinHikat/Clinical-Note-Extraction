@@ -1,4 +1,6 @@
 import os, sys
+os.environ["PYTORCH_HIP_ALLOC_CONF"] = "expandable_segments:True"
+os.environ["PYTORCH_CUDA_ALLOC_CONF"] = "expandable_segments:True"
 import time
 import datetime
 import json
@@ -65,7 +67,7 @@ def parse_args():
     parser.add_argument('--epochs', type=int, default=50, help='Number of epochs')
     parser.add_argument('--patience', type=int, default=20, help='Early stopping patience')
     parser.add_argument('--grad_clip', type=float, default=1.0, help='Gradient clipping')
-    parser.add_argument('--num_workers', type=int, default=0, help='Number of workers for data loading')
+    parser.add_argument('--num_workers', type=int, default=4, help='Number of workers for data loading')
     parser.add_argument('--threshold', type=float, default=0.6, help='Classification threshold')
     parser.add_argument('--resume_from', type=str, default=None, help='Path to best_model.pt to resume from')
     parser.add_argument('--start_epoch', type=int, default=1, help='Epoch to start from')
@@ -140,7 +142,7 @@ def evaluate(model, loader, criterion, device):
     with torch.no_grad():
         for batch in tqdm(loader, desc='Evaluating', leave=False):
             if batch is None: continue
-            batch = {k: v.to(device) if isinstance(v, torch.Tensor) else v for k, v in batch.items()}
+            batch = {k: v.to(device, non_blocking=True) if isinstance(v, torch.Tensor) else v for k, v in batch.items()}
             
             with autocast_context('cuda'):
                 logits = model(batch)
@@ -298,7 +300,7 @@ def train(
                 continue
 
             batch = {
-                k: v.to(device) if isinstance(v, torch.Tensor) else v
+                k: v.to(device, non_blocking=True) if isinstance(v, torch.Tensor) else v
                 for k, v in batch.items()
             }
 
@@ -651,7 +653,8 @@ if __name__ == '__main__':
     test_loader = DataLoader(
         test_dataset, batch_size=BATCH_SIZE, shuffle=False,
         collate_fn=ehr_collate_fn, num_workers=NUM_WORKERS,
-        pin_memory=(DEVICE.type == 'cuda')
+        pin_memory=(DEVICE.type == 'cuda'),
+        persistent_workers=(NUM_WORKERS > 0)
     )
 
     # 1. Evaluate Best Validation Checkpoint
