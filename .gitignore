@@ -3,5 +3,3 @@ secrets/
 .env
 __pycache__/
 models/
-
-checkpoints/*

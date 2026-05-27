@@ -1,0 +1,1154 @@
+=== TRAINING LOG START ===
+Device: cuda
+Batch size: 256, LR: 0.0001, Epochs: 50
+========================================
+
+Epoch   1 | Train loss: 4.6387 | Val mean AUROC: 0.6821
+
+[MORTALITY]
+AUROC: 0.7353 | AUPR: 0.0660 | F1: 0.0000
+
+[LOS > 7 DAYS]
+AUROC: 0.8361 | AUPR: 0.5421 | F1: 0.5297
+
+[READMISSION]
+AUROC: 0.6392 | AUPR: 0.3587 | F1: 0.3081
+
+[PROGRESSION]
+AUROC: 0.6094 | AUPR: 0.0489 | F1: 0.0833
+
+[DRUG RECOMMENDATION]
+AUROC: 0.5907 | AUPR: 0.2900 | F1: 0.3335
+
+[VALIDATION LOSSES]
+mort: 0.010 | los: 0.817 | readm: 0.987 | prog: 1.339 | drug: 1.141
+========================================
+
+Epoch   2 | Train loss: 4.1470 | Val mean AUROC: 0.7618
+
+[MORTALITY]
+AUROC: 0.8578 | AUPR: 0.1573 | F1: 0.0000
+
+[LOS > 7 DAYS]
+AUROC: 0.8596 | AUPR: 0.5844 | F1: 0.5550
+
+[READMISSION]
+AUROC: 0.6909 | AUPR: 0.4701 | F1: 0.3934
+
+[PROGRESSION]
+AUROC: 0.7330 | AUPR: 0.0835 | F1: 0.1424
+
+[DRUG RECOMMENDATION]
+AUROC: 0.6679 | AUPR: 0.3611 | F1: 0.4365
+
+[VALIDATION LOSSES]
+mort: 0.007 | los: 0.747 | readm: 0.934 | prog: 1.208 | drug: 1.080
+========================================
+
+Epoch   3 | Train loss: 3.9262 | Val mean AUROC: 0.7889
+
+[MORTALITY]
+AUROC: 0.9125 | AUPR: 0.2687 | F1: 0.0000
+
+[LOS > 7 DAYS]
+AUROC: 0.8657 | AUPR: 0.6001 | F1: 0.5614
+
+[READMISSION]
+AUROC: 0.7069 | AUPR: 0.4939 | F1: 0.3984
+
+[PROGRESSION]
+AUROC: 0.7729 | AUPR: 0.1002 | F1: 0.1553
+
+[DRUG RECOMMENDATION]
+AUROC: 0.6863 | AUPR: 0.3801 | F1: 0.4486
+
+[VALIDATION LOSSES]
+mort: 0.005 | los: 0.730 | readm: 0.915 | prog: 1.119 | drug: 1.058
+========================================
+
+Epoch   4 | Train loss: 3.8092 | Val mean AUROC: 0.8009
+
+[MORTALITY]
+AUROC: 0.9345 | AUPR: 0.3003 | F1: 0.0000
+
+[LOS > 7 DAYS]
+AUROC: 0.8690 | AUPR: 0.6109 | F1: 0.5666
+
+[READMISSION]
+AUROC: 0.7136 | AUPR: 0.5102 | F1: 0.4008
+
+[PROGRESSION]
+AUROC: 0.7895 | AUPR: 0.1090 | F1: 0.1558
+
+[DRUG RECOMMENDATION]
+AUROC: 0.6981 | AUPR: 0.3929 | F1: 0.4635
+
+[VALIDATION LOSSES]
+mort: 0.005 | los: 0.713 | readm: 0.904 | prog: 1.071 | drug: 1.041
+========================================
+
+Epoch   5 | Train loss: 3.7392 | Val mean AUROC: 0.8063
+
+[MORTALITY]
+AUROC: 0.9401 | AUPR: 0.3233 | F1: 0.0000
+
+[LOS > 7 DAYS]
+AUROC: 0.8703 | AUPR: 0.6141 | F1: 0.5657
+
+[READMISSION]
+AUROC: 0.7171 | AUPR: 0.5151 | F1: 0.4738
+
+[PROGRESSION]
+AUROC: 0.7990 | AUPR: 0.1149 | F1: 0.1581
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7051 | AUPR: 0.4007 | F1: 0.4682
+
+[VALIDATION LOSSES]
+mort: 0.005 | los: 0.708 | readm: 0.898 | prog: 1.043 | drug: 1.032
+========================================
+
+Epoch   6 | Train loss: 3.6948 | Val mean AUROC: 0.8111
+
+[MORTALITY]
+AUROC: 0.9456 | AUPR: 0.3475 | F1: 0.0000
+
+[LOS > 7 DAYS]
+AUROC: 0.8731 | AUPR: 0.6233 | F1: 0.5721
+
+[READMISSION]
+AUROC: 0.7219 | AUPR: 0.5201 | F1: 0.4522
+
+[PROGRESSION]
+AUROC: 0.8053 | AUPR: 0.1195 | F1: 0.1615
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7094 | AUPR: 0.4058 | F1: 0.4659
+
+[VALIDATION LOSSES]
+mort: 0.005 | los: 0.701 | readm: 0.888 | prog: 1.023 | drug: 1.025
+========================================
+
+Epoch   7 | Train loss: 3.6652 | Val mean AUROC: 0.8125
+
+[MORTALITY]
+AUROC: 0.9473 | AUPR: 0.3595 | F1: 0.0000
+
+[LOS > 7 DAYS]
+AUROC: 0.8736 | AUPR: 0.6249 | F1: 0.5726
+
+[READMISSION]
+AUROC: 0.7206 | AUPR: 0.5186 | F1: 0.4740
+
+[PROGRESSION]
+AUROC: 0.8091 | AUPR: 0.1224 | F1: 0.1615
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7121 | AUPR: 0.4088 | F1: 0.4752
+
+[VALIDATION LOSSES]
+mort: 0.005 | los: 0.700 | readm: 0.889 | prog: 1.012 | drug: 1.022
+========================================
+
+Epoch   8 | Train loss: 3.6442 | Val mean AUROC: 0.8143
+
+[MORTALITY]
+AUROC: 0.9502 | AUPR: 0.3476 | F1: 0.0000
+
+[LOS > 7 DAYS]
+AUROC: 0.8751 | AUPR: 0.6314 | F1: 0.5738
+
+[READMISSION]
+AUROC: 0.7219 | AUPR: 0.5209 | F1: 0.4631
+
+[PROGRESSION]
+AUROC: 0.8108 | AUPR: 0.1232 | F1: 0.1625
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7137 | AUPR: 0.4107 | F1: 0.4759
+
+[VALIDATION LOSSES]
+mort: 0.005 | los: 0.693 | readm: 0.885 | prog: 1.006 | drug: 1.020
+========================================
+
+Epoch   9 | Train loss: 3.6290 | Val mean AUROC: 0.8166
+
+[MORTALITY]
+AUROC: 0.9521 | AUPR: 0.3911 | F1: 0.0000
+
+[LOS > 7 DAYS]
+AUROC: 0.8757 | AUPR: 0.6336 | F1: 0.5735
+
+[READMISSION]
+AUROC: 0.7260 | AUPR: 0.5275 | F1: 0.4452
+
+[PROGRESSION]
+AUROC: 0.8136 | AUPR: 0.1258 | F1: 0.1638
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7155 | AUPR: 0.4130 | F1: 0.4770
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.693 | readm: 0.881 | prog: 0.997 | drug: 1.017
+========================================
+
+Epoch  10 | Train loss: 3.6176 | Val mean AUROC: 0.8176
+
+[MORTALITY]
+AUROC: 0.9532 | AUPR: 0.3877 | F1: 0.0123
+
+[LOS > 7 DAYS]
+AUROC: 0.8765 | AUPR: 0.6365 | F1: 0.5738
+
+[READMISSION]
+AUROC: 0.7262 | AUPR: 0.5271 | F1: 0.4642
+
+[PROGRESSION]
+AUROC: 0.8152 | AUPR: 0.1273 | F1: 0.1646
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7166 | AUPR: 0.4145 | F1: 0.4763
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.691 | readm: 0.880 | prog: 0.991 | drug: 1.015
+========================================
+
+Epoch  11 | Train loss: 3.6068 | Val mean AUROC: 0.8174
+
+[MORTALITY]
+AUROC: 0.9536 | AUPR: 0.3943 | F1: 0.0061
+
+[LOS > 7 DAYS]
+AUROC: 0.8760 | AUPR: 0.6345 | F1: 0.5704
+
+[READMISSION]
+AUROC: 0.7250 | AUPR: 0.5258 | F1: 0.4768
+
+[PROGRESSION]
+AUROC: 0.8160 | AUPR: 0.1273 | F1: 0.1630
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7167 | AUPR: 0.4141 | F1: 0.4815
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.695 | readm: 0.882 | prog: 0.990 | drug: 1.016
+========================================
+
+Epoch  12 | Train loss: 3.5986 | Val mean AUROC: 0.8176
+
+[MORTALITY]
+AUROC: 0.9546 | AUPR: 0.4126 | F1: 0.0092
+
+[LOS > 7 DAYS]
+AUROC: 0.8768 | AUPR: 0.6391 | F1: 0.5789
+
+[READMISSION]
+AUROC: 0.7238 | AUPR: 0.5206 | F1: 0.3387
+
+[PROGRESSION]
+AUROC: 0.8165 | AUPR: 0.1277 | F1: 0.1686
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7163 | AUPR: 0.4146 | F1: 0.4752
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.689 | readm: 0.889 | prog: 0.989 | drug: 1.016
+========================================
+
+Epoch  13 | Train loss: 3.5915 | Val mean AUROC: 0.8192
+
+[MORTALITY]
+AUROC: 0.9563 | AUPR: 0.4179 | F1: 0.0244
+
+[LOS > 7 DAYS]
+AUROC: 0.8770 | AUPR: 0.6404 | F1: 0.5793
+
+[READMISSION]
+AUROC: 0.7265 | AUPR: 0.5283 | F1: 0.4630
+
+[PROGRESSION]
+AUROC: 0.8177 | AUPR: 0.1291 | F1: 0.1658
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7187 | AUPR: 0.4169 | F1: 0.4787
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.692 | readm: 0.878 | prog: 0.984 | drug: 1.012
+========================================
+
+Epoch  14 | Train loss: 3.5843 | Val mean AUROC: 0.8204
+
+[MORTALITY]
+AUROC: 0.9560 | AUPR: 0.4151 | F1: 0.0393
+
+[LOS > 7 DAYS]
+AUROC: 0.8779 | AUPR: 0.6423 | F1: 0.5805
+
+[READMISSION]
+AUROC: 0.7297 | AUPR: 0.5339 | F1: 0.4763
+
+[PROGRESSION]
+AUROC: 0.8190 | AUPR: 0.1305 | F1: 0.1664
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7197 | AUPR: 0.4186 | F1: 0.4785
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.688 | readm: 0.876 | prog: 0.980 | drug: 1.011
+========================================
+
+Epoch  15 | Train loss: 3.5790 | Val mean AUROC: 0.8208
+
+[MORTALITY]
+AUROC: 0.9576 | AUPR: 0.4197 | F1: 0.0509
+
+[LOS > 7 DAYS]
+AUROC: 0.8778 | AUPR: 0.6416 | F1: 0.5800
+
+[READMISSION]
+AUROC: 0.7293 | AUPR: 0.5328 | F1: 0.4387
+
+[PROGRESSION]
+AUROC: 0.8197 | AUPR: 0.1316 | F1: 0.1693
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7198 | AUPR: 0.4190 | F1: 0.4803
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.685 | readm: 0.875 | prog: 0.978 | drug: 1.011
+========================================
+
+Epoch  16 | Train loss: 3.5731 | Val mean AUROC: 0.8212
+
+[MORTALITY]
+AUROC: 0.9581 | AUPR: 0.4300 | F1: 0.0244
+
+[LOS > 7 DAYS]
+AUROC: 0.8783 | AUPR: 0.6421 | F1: 0.5809
+
+[READMISSION]
+AUROC: 0.7296 | AUPR: 0.5345 | F1: 0.4577
+
+[PROGRESSION]
+AUROC: 0.8199 | AUPR: 0.1316 | F1: 0.1685
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7201 | AUPR: 0.4194 | F1: 0.4763
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.685 | readm: 0.873 | prog: 0.977 | drug: 1.010
+========================================
+
+Epoch  17 | Train loss: 3.5690 | Val mean AUROC: 0.8222
+
+[MORTALITY]
+AUROC: 0.9592 | AUPR: 0.4338 | F1: 0.0827
+
+[LOS > 7 DAYS]
+AUROC: 0.8789 | AUPR: 0.6452 | F1: 0.5771
+
+[READMISSION]
+AUROC: 0.7311 | AUPR: 0.5373 | F1: 0.4604
+
+[PROGRESSION]
+AUROC: 0.8209 | AUPR: 0.1320 | F1: 0.1665
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7208 | AUPR: 0.4204 | F1: 0.4836
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.685 | readm: 0.871 | prog: 0.974 | drug: 1.009
+========================================
+
+Epoch  18 | Train loss: 3.5643 | Val mean AUROC: 0.8223
+
+[MORTALITY]
+AUROC: 0.9585 | AUPR: 0.4310 | F1: 0.0452
+
+[LOS > 7 DAYS]
+AUROC: 0.8792 | AUPR: 0.6475 | F1: 0.5795
+
+[READMISSION]
+AUROC: 0.7312 | AUPR: 0.5383 | F1: 0.4548
+
+[PROGRESSION]
+AUROC: 0.8214 | AUPR: 0.1329 | F1: 0.1681
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7211 | AUPR: 0.4209 | F1: 0.4824
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.683 | readm: 0.872 | prog: 0.973 | drug: 1.009
+========================================
+
+Epoch  19 | Train loss: 3.5606 | Val mean AUROC: 0.8225
+
+[MORTALITY]
+AUROC: 0.9593 | AUPR: 0.4437 | F1: 0.0540
+
+[LOS > 7 DAYS]
+AUROC: 0.8793 | AUPR: 0.6439 | F1: 0.5789
+
+[READMISSION]
+AUROC: 0.7310 | AUPR: 0.5365 | F1: 0.4605
+
+[PROGRESSION]
+AUROC: 0.8215 | AUPR: 0.1327 | F1: 0.1664
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7211 | AUPR: 0.4210 | F1: 0.4812
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.683 | readm: 0.872 | prog: 0.973 | drug: 1.009
+========================================
+
+Epoch  20 | Train loss: 3.5550 | Val mean AUROC: 0.8230
+
+[MORTALITY]
+AUROC: 0.9598 | AUPR: 0.4364 | F1: 0.0656
+
+[LOS > 7 DAYS]
+AUROC: 0.8789 | AUPR: 0.6466 | F1: 0.5756
+
+[READMISSION]
+AUROC: 0.7329 | AUPR: 0.5390 | F1: 0.4769
+
+[PROGRESSION]
+AUROC: 0.8221 | AUPR: 0.1332 | F1: 0.1665
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7214 | AUPR: 0.4215 | F1: 0.4839
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.683 | readm: 0.870 | prog: 0.972 | drug: 1.008
+========================================
+
+Epoch  21 | Train loss: 3.5526 | Val mean AUROC: 0.8233
+
+[MORTALITY]
+AUROC: 0.9594 | AUPR: 0.4329 | F1: 0.0799
+
+[LOS > 7 DAYS]
+AUROC: 0.8797 | AUPR: 0.6483 | F1: 0.5817
+
+[READMISSION]
+AUROC: 0.7336 | AUPR: 0.5420 | F1: 0.4617
+
+[PROGRESSION]
+AUROC: 0.8221 | AUPR: 0.1333 | F1: 0.1683
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7218 | AUPR: 0.4219 | F1: 0.4817
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.681 | readm: 0.868 | prog: 0.970 | drug: 1.008
+========================================
+
+Epoch  22 | Train loss: 3.5483 | Val mean AUROC: 0.8233
+
+[MORTALITY]
+AUROC: 0.9600 | AUPR: 0.4346 | F1: 0.1020
+
+[LOS > 7 DAYS]
+AUROC: 0.8784 | AUPR: 0.6451 | F1: 0.5836
+
+[READMISSION]
+AUROC: 0.7330 | AUPR: 0.5414 | F1: 0.4536
+
+[PROGRESSION]
+AUROC: 0.8227 | AUPR: 0.1341 | F1: 0.1723
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7222 | AUPR: 0.4228 | F1: 0.4784
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.688 | readm: 0.868 | prog: 0.969 | drug: 1.007
+========================================
+
+Epoch  23 | Train loss: 3.5450 | Val mean AUROC: 0.8234
+
+[MORTALITY]
+AUROC: 0.9597 | AUPR: 0.4439 | F1: 0.1022
+
+[LOS > 7 DAYS]
+AUROC: 0.8801 | AUPR: 0.6483 | F1: 0.5816
+
+[READMISSION]
+AUROC: 0.7323 | AUPR: 0.5402 | F1: 0.4680
+
+[PROGRESSION]
+AUROC: 0.8226 | AUPR: 0.1342 | F1: 0.1680
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7223 | AUPR: 0.4230 | F1: 0.4815
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.680 | readm: 0.868 | prog: 0.969 | drug: 1.007
+========================================
+
+Epoch  24 | Train loss: 3.5428 | Val mean AUROC: 0.8237
+
+[MORTALITY]
+AUROC: 0.9593 | AUPR: 0.4410 | F1: 0.1347
+
+[LOS > 7 DAYS]
+AUROC: 0.8802 | AUPR: 0.6478 | F1: 0.5804
+
+[READMISSION]
+AUROC: 0.7331 | AUPR: 0.5403 | F1: 0.4777
+
+[PROGRESSION]
+AUROC: 0.8234 | AUPR: 0.1346 | F1: 0.1668
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7226 | AUPR: 0.4234 | F1: 0.4795
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.682 | readm: 0.870 | prog: 0.967 | drug: 1.007
+========================================
+
+Epoch  25 | Train loss: 3.5395 | Val mean AUROC: 0.8244
+
+[MORTALITY]
+AUROC: 0.9601 | AUPR: 0.4407 | F1: 0.0799
+
+[LOS > 7 DAYS]
+AUROC: 0.8802 | AUPR: 0.6503 | F1: 0.5827
+
+[READMISSION]
+AUROC: 0.7350 | AUPR: 0.5451 | F1: 0.4490
+
+[PROGRESSION]
+AUROC: 0.8237 | AUPR: 0.1351 | F1: 0.1698
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7228 | AUPR: 0.4240 | F1: 0.4808
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.680 | readm: 0.866 | prog: 0.966 | drug: 1.006
+========================================
+
+Epoch  26 | Train loss: 3.5361 | Val mean AUROC: 0.8247
+
+[MORTALITY]
+AUROC: 0.9613 | AUPR: 0.4388 | F1: 0.1484
+
+[LOS > 7 DAYS]
+AUROC: 0.8805 | AUPR: 0.6497 | F1: 0.5870
+
+[READMISSION]
+AUROC: 0.7348 | AUPR: 0.5430 | F1: 0.4437
+
+[PROGRESSION]
+AUROC: 0.8239 | AUPR: 0.1354 | F1: 0.1711
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7231 | AUPR: 0.4243 | F1: 0.4831
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.681 | readm: 0.867 | prog: 0.965 | drug: 1.006
+========================================
+
+Epoch  27 | Train loss: 3.5348 | Val mean AUROC: 0.8241
+
+[MORTALITY]
+AUROC: 0.9618 | AUPR: 0.4486 | F1: 0.0940
+
+[LOS > 7 DAYS]
+AUROC: 0.8798 | AUPR: 0.6483 | F1: 0.5875
+
+[READMISSION]
+AUROC: 0.7327 | AUPR: 0.5378 | F1: 0.4307
+
+[PROGRESSION]
+AUROC: 0.8235 | AUPR: 0.1353 | F1: 0.1722
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7228 | AUPR: 0.4240 | F1: 0.4830
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.682 | readm: 0.869 | prog: 0.967 | drug: 1.007
+========================================
+
+Epoch  28 | Train loss: 3.5313 | Val mean AUROC: 0.8250
+
+[MORTALITY]
+AUROC: 0.9615 | AUPR: 0.4425 | F1: 0.1158
+
+[LOS > 7 DAYS]
+AUROC: 0.8808 | AUPR: 0.6511 | F1: 0.5877
+
+[READMISSION]
+AUROC: 0.7349 | AUPR: 0.5456 | F1: 0.4538
+
+[PROGRESSION]
+AUROC: 0.8244 | AUPR: 0.1364 | F1: 0.1726
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7236 | AUPR: 0.4252 | F1: 0.4822
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.679 | readm: 0.865 | prog: 0.964 | drug: 1.005
+========================================
+
+Epoch  29 | Train loss: 3.5290 | Val mean AUROC: 0.8254
+
+[MORTALITY]
+AUROC: 0.9616 | AUPR: 0.4489 | F1: 0.0827
+
+[LOS > 7 DAYS]
+AUROC: 0.8813 | AUPR: 0.6526 | F1: 0.5865
+
+[READMISSION]
+AUROC: 0.7363 | AUPR: 0.5476 | F1: 0.4639
+
+[PROGRESSION]
+AUROC: 0.8244 | AUPR: 0.1359 | F1: 0.1700
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7235 | AUPR: 0.4253 | F1: 0.4813
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.676 | readm: 0.863 | prog: 0.964 | drug: 1.005
+========================================
+
+Epoch  30 | Train loss: 3.5270 | Val mean AUROC: 0.8248
+
+[MORTALITY]
+AUROC: 0.9618 | AUPR: 0.4412 | F1: 0.1506
+
+[LOS > 7 DAYS]
+AUROC: 0.8782 | AUPR: 0.6484 | F1: 0.5827
+
+[READMISSION]
+AUROC: 0.7355 | AUPR: 0.5462 | F1: 0.4547
+
+[PROGRESSION]
+AUROC: 0.8249 | AUPR: 0.1365 | F1: 0.1718
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7237 | AUPR: 0.4258 | F1: 0.4844
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.688 | readm: 0.864 | prog: 0.962 | drug: 1.005
+========================================
+
+Epoch  31 | Train loss: 3.5239 | Val mean AUROC: 0.8257
+
+[MORTALITY]
+AUROC: 0.9622 | AUPR: 0.4516 | F1: 0.1159
+
+[LOS > 7 DAYS]
+AUROC: 0.8811 | AUPR: 0.6517 | F1: 0.5828
+
+[READMISSION]
+AUROC: 0.7366 | AUPR: 0.5478 | F1: 0.4653
+
+[PROGRESSION]
+AUROC: 0.8249 | AUPR: 0.1366 | F1: 0.1688
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7238 | AUPR: 0.4257 | F1: 0.4832
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.676 | readm: 0.863 | prog: 0.963 | drug: 1.005
+========================================
+
+Epoch  32 | Train loss: 3.5227 | Val mean AUROC: 0.8254
+
+[MORTALITY]
+AUROC: 0.9616 | AUPR: 0.4512 | F1: 0.1161
+
+[LOS > 7 DAYS]
+AUROC: 0.8809 | AUPR: 0.6520 | F1: 0.5861
+
+[READMISSION]
+AUROC: 0.7359 | AUPR: 0.5473 | F1: 0.4648
+
+[PROGRESSION]
+AUROC: 0.8248 | AUPR: 0.1361 | F1: 0.1702
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7238 | AUPR: 0.4253 | F1: 0.4801
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.679 | readm: 0.863 | prog: 0.963 | drug: 1.005
+========================================
+
+Epoch  33 | Train loss: 3.5203 | Val mean AUROC: 0.8257
+
+[MORTALITY]
+AUROC: 0.9620 | AUPR: 0.4449 | F1: 0.1455
+
+[LOS > 7 DAYS]
+AUROC: 0.8812 | AUPR: 0.6532 | F1: 0.5838
+
+[READMISSION]
+AUROC: 0.7361 | AUPR: 0.5480 | F1: 0.4611
+
+[PROGRESSION]
+AUROC: 0.8250 | AUPR: 0.1364 | F1: 0.1703
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7241 | AUPR: 0.4261 | F1: 0.4822
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.676 | readm: 0.862 | prog: 0.961 | drug: 1.004
+========================================
+
+Epoch  34 | Train loss: 3.5183 | Val mean AUROC: 0.8260
+
+[MORTALITY]
+AUROC: 0.9618 | AUPR: 0.4512 | F1: 0.1324
+
+[LOS > 7 DAYS]
+AUROC: 0.8811 | AUPR: 0.6535 | F1: 0.5785
+
+[READMISSION]
+AUROC: 0.7377 | AUPR: 0.5504 | F1: 0.4784
+
+[PROGRESSION]
+AUROC: 0.8253 | AUPR: 0.1367 | F1: 0.1684
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7242 | AUPR: 0.4265 | F1: 0.4865
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.679 | readm: 0.861 | prog: 0.961 | drug: 1.004
+========================================
+
+Epoch  35 | Train loss: 3.5146 | Val mean AUROC: 0.8264
+
+[MORTALITY]
+AUROC: 0.9630 | AUPR: 0.4527 | F1: 0.1297
+
+[LOS > 7 DAYS]
+AUROC: 0.8813 | AUPR: 0.6547 | F1: 0.5856
+
+[READMISSION]
+AUROC: 0.7375 | AUPR: 0.5499 | F1: 0.4777
+
+[PROGRESSION]
+AUROC: 0.8257 | AUPR: 0.1377 | F1: 0.1705
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7245 | AUPR: 0.4269 | F1: 0.4819
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.677 | readm: 0.861 | prog: 0.959 | drug: 1.003
+========================================
+
+Epoch  36 | Train loss: 3.5131 | Val mean AUROC: 0.8265
+
+[MORTALITY]
+AUROC: 0.9624 | AUPR: 0.4582 | F1: 0.1297
+
+[LOS > 7 DAYS]
+AUROC: 0.8811 | AUPR: 0.6542 | F1: 0.5862
+
+[READMISSION]
+AUROC: 0.7386 | AUPR: 0.5523 | F1: 0.4635
+
+[PROGRESSION]
+AUROC: 0.8256 | AUPR: 0.1375 | F1: 0.1711
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7247 | AUPR: 0.4272 | F1: 0.4828
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.678 | readm: 0.860 | prog: 0.960 | drug: 1.003
+========================================
+
+Epoch  37 | Train loss: 3.5106 | Val mean AUROC: 0.8266
+
+[MORTALITY]
+AUROC: 0.9628 | AUPR: 0.4547 | F1: 0.1293
+
+[LOS > 7 DAYS]
+AUROC: 0.8808 | AUPR: 0.6530 | F1: 0.5818
+
+[READMISSION]
+AUROC: 0.7389 | AUPR: 0.5537 | F1: 0.4773
+
+[PROGRESSION]
+AUROC: 0.8257 | AUPR: 0.1376 | F1: 0.1701
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7246 | AUPR: 0.4271 | F1: 0.4845
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.678 | readm: 0.859 | prog: 0.960 | drug: 1.003
+========================================
+
+Epoch  38 | Train loss: 3.5084 | Val mean AUROC: 0.8271
+
+[MORTALITY]
+AUROC: 0.9628 | AUPR: 0.4584 | F1: 0.1347
+
+[LOS > 7 DAYS]
+AUROC: 0.8824 | AUPR: 0.6524 | F1: 0.5856
+
+[READMISSION]
+AUROC: 0.7400 | AUPR: 0.5549 | F1: 0.4784
+
+[PROGRESSION]
+AUROC: 0.8255 | AUPR: 0.1378 | F1: 0.1701
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7249 | AUPR: 0.4275 | F1: 0.4857
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.674 | readm: 0.858 | prog: 0.961 | drug: 1.003
+========================================
+
+Epoch  39 | Train loss: 3.5076 | Val mean AUROC: 0.8270
+
+[MORTALITY]
+AUROC: 0.9628 | AUPR: 0.4647 | F1: 0.1508
+
+[LOS > 7 DAYS]
+AUROC: 0.8824 | AUPR: 0.6584 | F1: 0.5855
+
+[READMISSION]
+AUROC: 0.7388 | AUPR: 0.5545 | F1: 0.4715
+
+[PROGRESSION]
+AUROC: 0.8258 | AUPR: 0.1381 | F1: 0.1695
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7250 | AUPR: 0.4276 | F1: 0.4824
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.674 | readm: 0.858 | prog: 0.959 | drug: 1.003
+========================================
+
+Epoch  40 | Train loss: 3.5047 | Val mean AUROC: 0.8270
+
+[MORTALITY]
+AUROC: 0.9635 | AUPR: 0.4656 | F1: 0.1793
+
+[LOS > 7 DAYS]
+AUROC: 0.8813 | AUPR: 0.6548 | F1: 0.5815
+
+[READMISSION]
+AUROC: 0.7392 | AUPR: 0.5537 | F1: 0.4673
+
+[PROGRESSION]
+AUROC: 0.8260 | AUPR: 0.1383 | F1: 0.1688
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7249 | AUPR: 0.4276 | F1: 0.4853
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.678 | readm: 0.858 | prog: 0.959 | drug: 1.003
+========================================
+
+Epoch  41 | Train loss: 3.5030 | Val mean AUROC: 0.8269
+
+[MORTALITY]
+AUROC: 0.9629 | AUPR: 0.4625 | F1: 0.1584
+
+[LOS > 7 DAYS]
+AUROC: 0.8800 | AUPR: 0.6533 | F1: 0.5793
+
+[READMISSION]
+AUROC: 0.7403 | AUPR: 0.5560 | F1: 0.4618
+
+[PROGRESSION]
+AUROC: 0.8262 | AUPR: 0.1382 | F1: 0.1708
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7251 | AUPR: 0.4281 | F1: 0.4872
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.683 | readm: 0.857 | prog: 0.958 | drug: 1.003
+========================================
+
+Epoch  42 | Train loss: 3.5018 | Val mean AUROC: 0.8263
+
+[MORTALITY]
+AUROC: 0.9628 | AUPR: 0.4619 | F1: 0.1765
+
+[LOS > 7 DAYS]
+AUROC: 0.8789 | AUPR: 0.6529 | F1: 0.5838
+
+[READMISSION]
+AUROC: 0.7387 | AUPR: 0.5513 | F1: 0.4322
+
+[PROGRESSION]
+AUROC: 0.8262 | AUPR: 0.1384 | F1: 0.1703
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7251 | AUPR: 0.4280 | F1: 0.4847
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.686 | readm: 0.861 | prog: 0.959 | drug: 1.003
+========================================
+
+Epoch  43 | Train loss: 3.4916 | Val mean AUROC: 0.8284
+
+[MORTALITY]
+AUROC: 0.9636 | AUPR: 0.4653 | F1: 0.1742
+
+[LOS > 7 DAYS]
+AUROC: 0.8833 | AUPR: 0.6597 | F1: 0.5891
+
+[READMISSION]
+AUROC: 0.7424 | AUPR: 0.5597 | F1: 0.4779
+
+[PROGRESSION]
+AUROC: 0.8268 | AUPR: 0.1391 | F1: 0.1709
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7257 | AUPR: 0.4287 | F1: 0.4842
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.671 | readm: 0.854 | prog: 0.957 | drug: 1.002
+========================================
+
+Epoch  44 | Train loss: 3.4898 | Val mean AUROC: 0.8283
+
+[MORTALITY]
+AUROC: 0.9641 | AUPR: 0.4655 | F1: 0.1243
+
+[LOS > 7 DAYS]
+AUROC: 0.8822 | AUPR: 0.6571 | F1: 0.5867
+
+[READMISSION]
+AUROC: 0.7425 | AUPR: 0.5594 | F1: 0.4585
+
+[PROGRESSION]
+AUROC: 0.8270 | AUPR: 0.1394 | F1: 0.1711
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7258 | AUPR: 0.4289 | F1: 0.4859
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.675 | readm: 0.854 | prog: 0.956 | drug: 1.002
+========================================
+
+Epoch  45 | Train loss: 3.4881 | Val mean AUROC: 0.8286
+
+[MORTALITY]
+AUROC: 0.9645 | AUPR: 0.4695 | F1: 0.1589
+
+[LOS > 7 DAYS]
+AUROC: 0.8830 | AUPR: 0.6605 | F1: 0.5872
+
+[READMISSION]
+AUROC: 0.7426 | AUPR: 0.5587 | F1: 0.4518
+
+[PROGRESSION]
+AUROC: 0.8270 | AUPR: 0.1393 | F1: 0.1724
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7257 | AUPR: 0.4288 | F1: 0.4872
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.673 | readm: 0.856 | prog: 0.956 | drug: 1.002
+========================================
+
+Epoch  46 | Train loss: 3.4879 | Val mean AUROC: 0.8283
+
+[MORTALITY]
+AUROC: 0.9637 | AUPR: 0.4708 | F1: 0.1610
+
+[LOS > 7 DAYS]
+AUROC: 0.8825 | AUPR: 0.6581 | F1: 0.5857
+
+[READMISSION]
+AUROC: 0.7423 | AUPR: 0.5593 | F1: 0.4778
+
+[PROGRESSION]
+AUROC: 0.8270 | AUPR: 0.1393 | F1: 0.1710
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7260 | AUPR: 0.4290 | F1: 0.4859
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.675 | readm: 0.855 | prog: 0.956 | drug: 1.001
+========================================
+
+Epoch  47 | Train loss: 3.4869 | Val mean AUROC: 0.8289
+
+[MORTALITY]
+AUROC: 0.9647 | AUPR: 0.4756 | F1: 0.1431
+
+[LOS > 7 DAYS]
+AUROC: 0.8837 | AUPR: 0.6610 | F1: 0.5891
+
+[READMISSION]
+AUROC: 0.7430 | AUPR: 0.5599 | F1: 0.4553
+
+[PROGRESSION]
+AUROC: 0.8270 | AUPR: 0.1395 | F1: 0.1725
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7262 | AUPR: 0.4296 | F1: 0.4838
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.671 | readm: 0.854 | prog: 0.956 | drug: 1.001
+========================================
+
+Epoch  48 | Train loss: 3.4847 | Val mean AUROC: 0.8289
+
+[MORTALITY]
+AUROC: 0.9642 | AUPR: 0.4694 | F1: 0.1636
+
+[LOS > 7 DAYS]
+AUROC: 0.8835 | AUPR: 0.6585 | F1: 0.5870
+
+[READMISSION]
+AUROC: 0.7435 | AUPR: 0.5612 | F1: 0.4798
+
+[PROGRESSION]
+AUROC: 0.8270 | AUPR: 0.1393 | F1: 0.1705
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7261 | AUPR: 0.4292 | F1: 0.4856
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.671 | readm: 0.853 | prog: 0.956 | drug: 1.001
+========================================
+
+Epoch  49 | Train loss: 3.4843 | Val mean AUROC: 0.8286
+
+[MORTALITY]
+AUROC: 0.9648 | AUPR: 0.4744 | F1: 0.1716
+
+[LOS > 7 DAYS]
+AUROC: 0.8820 | AUPR: 0.6578 | F1: 0.5805
+
+[READMISSION]
+AUROC: 0.7433 | AUPR: 0.5612 | F1: 0.4706
+
+[PROGRESSION]
+AUROC: 0.8270 | AUPR: 0.1393 | F1: 0.1713
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7258 | AUPR: 0.4288 | F1: 0.4873
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.678 | readm: 0.853 | prog: 0.956 | drug: 1.002
+========================================
+
+Epoch  50 | Train loss: 3.4830 | Val mean AUROC: 0.8290
+
+[MORTALITY]
+AUROC: 0.9647 | AUPR: 0.4678 | F1: 0.1690
+
+[LOS > 7 DAYS]
+AUROC: 0.8828 | AUPR: 0.6598 | F1: 0.5880
+
+[READMISSION]
+AUROC: 0.7442 | AUPR: 0.5620 | F1: 0.4626
+
+[PROGRESSION]
+AUROC: 0.8271 | AUPR: 0.1395 | F1: 0.1716
+
+[DRUG RECOMMENDATION]
+AUROC: 0.7261 | AUPR: 0.4292 | F1: 0.4852
+
+[VALIDATION LOSSES]
+mort: 0.004 | los: 0.675 | readm: 0.852 | prog: 0.955 | drug: 1.001
+========================================
+
+Total Run Time: 194.21 minutes
+
+==================== FINAL TEST RESULTS COMPARISON ====================
+Mortality AUROC           | 0.9589         | 0.9581         | -0.0008
+Mortality AUPR            | 0.4471         | 0.4456         | -0.0016
+LOS > 7d AUROC            | 0.8813         | 0.8813         | +0.0000
+LOS > 7d AUPR             | 0.6559         | 0.6563         | +0.0004
+Readmission AUROC         | 0.7288         | 0.7277         | -0.0010
+Readmission AUPR          | 0.5298         | 0.5288         | -0.0010
+Progression AUROC         | 0.8269         | 0.8272         | +0.0003
+Progression AUPR          | 0.1368         | 0.1373         | +0.0006
+Drug Rec AUROC            | 0.7238         | 0.7238         | +0.0001
+Drug Rec AUPR             | 0.4246         | 0.4243         | -0.0002
+Mean AUROC (Avg)          | 0.8239         | 0.8237         | -0.0003
+============================================================
+
+BEST MODEL METRICS:
+{
+  "mortality": 0.9588918456567193,
+  "mortality_aupr": 0.44713436926080746,
+  "mortality_mAP": 0.44713436926080746,
+  "mortality_accuracy": 0.9860545650241004,
+  "mortality_precision": 0.875,
+  "mortality_recall": 0.09692307692307692,
+  "mortality_f1": 0.1745152354570637,
+  "los_7d": 0.8812961645970415,
+  "los_7d_aupr": 0.6558830718046417,
+  "los_7d_mAP": 0.6558830718046417,
+  "los_7d_accuracy": 0.8037577799616267,
+  "los_7d_precision": 0.479717096171043,
+  "los_7d_recall": 0.7480983772819473,
+  "los_7d_f1": 0.584575759076725,
+  "readmission": 0.7287562804059601,
+  "readmission_aupr": 0.529804531747294,
+  "readmission_mAP": 0.529804531747294,
+  "readmission_accuracy": 0.7458467874023118,
+  "readmission_precision": 0.5138484886809156,
+  "readmission_recall": 0.3666636585145745,
+  "readmission_f1": 0.4279544975774173,
+  "progression": 0.8269234001623386,
+  "progression_aupr": 0.13678032678173743,
+  "progression_mAP": 0.13678032678173743,
+  "progression_f1": 0.17009154887644562,
+  "drug_rec": 0.7237579802695372,
+  "drug_rec_aupr": 0.4245508580172965,
+  "drug_rec_mAP": 0.4245508580172965,
+  "drug_rec_f1": 0.4811592869641546,
+  "mean_auroc": 0.8239251342183194,
+  "loss_dict": {
+    "total": 3.4993902537637127,
+    "mortality": 0.004146465700549146,
+    "los_7d": 0.6791025000418017,
+    "readmission": 0.8606438997262966,
+    "progression": 0.9526424136704313,
+    "drug_rec": 1.0028549761115433
+  }
+}
+
+SWA MODEL METRICS:
+{
+  "mortality": 0.958102218063252,
+  "mortality_aupr": 0.4455672758301099,
+  "mortality_mAP": 0.4455672758301099,
+  "mortality_accuracy": 0.9860779634049324,
+  "mortality_precision": 0.8873239436619719,
+  "mortality_recall": 0.09692307692307692,
+  "mortality_f1": 0.17475728155339806,
+  "los_7d": 0.881340615823829,
+  "los_7d_aupr": 0.6562796860403507,
+  "los_7d_mAP": 0.6562796860403507,
+  "los_7d_accuracy": 0.8002948195984838,
+  "los_7d_precision": 0.4744329408045523,
+  "los_7d_recall": 0.7610294117647058,
+  "los_7d_f1": 0.584489557470425,
+  "readmission": 0.7277438790606892,
+  "readmission_aupr": 0.5288210389360087,
+  "readmission_mAP": 0.5288210389360087,
+  "readmission_accuracy": 0.7449108521690299,
+  "readmission_precision": 0.5110562075355157,
+  "readmission_recall": 0.3733417561591914,
+  "readmission_f1": 0.43147684605757197,
+  "progression": 0.8272462331137104,
+  "progression_aupr": 0.13734110093578525,
+  "progression_mAP": 0.13734110093578525,
+  "progression_f1": 0.16954725236672144,
+  "drug_rec": 0.7238274763029522,
+  "drug_rec_aupr": 0.4243450436107228,
+  "drug_rec_mAP": 0.4243450436107228,
+  "drug_rec_f1": 0.4820588290786966,
+  "mean_auroc": 0.8236520844728865,
+  "loss_dict": {
+    "total": 3.4984859078230257,
+    "mortality": 0.004158738210050021,
+    "los_7d": 0.677789049591133,
+    "readmission": 0.861924093283579,
+    "progression": 0.9517273117682177,
+    "drug_rec": 1.0028867200463119
+  }
+}
