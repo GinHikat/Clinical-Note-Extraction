@@ -76,6 +76,10 @@ def parse_args():
 
 args = parse_args()
 
+# Disable Focal Loss for mortality if unweighted/equal loss is enabled
+if args.no_pos_weight or os.environ.get("ABLATION_MODE") == "equal_loss":
+    args.use_focal_loss = False
+
 base_data_dir = os.path.join(project_root, 'data')
 downstream_data_path = os.path.join(base_data_dir, 'Timeline')
 
@@ -93,11 +97,11 @@ DRUG_WEIGHTS_PATH    = os.path.join(downstream_data_path, 'drug_rec_pos_weights.
 
 run_time_str = datetime.datetime.now().strftime("%Y%m%d_%H%M%S")
 ablation_mode = os.environ.get("ABLATION_MODE")
-config_str = f"{args.model_type}_bs{args.batch_size}_lr{args.lr}_ep{args.epochs}"
+config_str = f"{args.model_type}"
 if ablation_mode:
     config_str = f"ablation_{ablation_mode}_{config_str}"
 
-CHECKPOINT_DIR = os.path.join('checkpoints', f"{config_str}_{run_time_str}")
+CHECKPOINT_DIR = os.path.join('checkpoints', f"{config_str}")
 if args.task != 'all':
     CHECKPOINT_DIR = CHECKPOINT_DIR.replace(config_str, f"{config_str}_task_{args.task}")
 if args.no_pos_weight:

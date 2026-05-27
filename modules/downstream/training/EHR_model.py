@@ -178,42 +178,58 @@ class EHRDataset(Dataset):
         elif self.ablation_mode == 'static_only':
             # Zero out the entire timeline to test static context only
             emb = np.zeros_like(emb)
-        elif self.ablation_mode == 'no_labs':
-            # Zero out only LAB events (case-insensitive)
-            emb = emb.copy() # Make copy to allow modification
-            for i, entry in enumerate(meta[:len(emb)]):
-                if entry.get('type', '').upper() == 'LAB':
-                    emb[i] = 0
-        elif self.ablation_mode == 'no_omr':
-            # Zero out only OMR events (case-insensitive)
-            emb = emb.copy()
-            for i, entry in enumerate(meta[:len(emb)]):
-                if entry.get('type', '').upper() == 'OMR':
-                    emb[i] = 0
-        elif self.ablation_mode == 'no_outnotes':
-            # Zero out only outpatient note (OutNote) events
-            emb = emb.copy()
-            for i, entry in enumerate(meta[:len(emb)]):
-                if entry.get('type', '').upper() == 'OUTNOTE':
-                    emb[i] = 0
-        elif self.ablation_mode == 'no_icu':
-            # Zero out only Intensive Care Unit (ICU) events
-            emb = emb.copy()
-            for i, entry in enumerate(meta[:len(emb)]):
-                if entry.get('type', '').upper() == 'ICU':
-                    emb[i] = 0
-        elif self.ablation_mode == 'no_transfers':
-            # Zero out only ward relocation (Transfer) events
-            emb = emb.copy()
-            for i, entry in enumerate(meta[:len(emb)]):
-                if entry.get('type', '').upper() == 'TRANSFER':
-                    emb[i] = 0
-        elif self.ablation_mode == 'no_last_event':
-            # Zero out all admission_emb (AdmissionEvent) tokens in the entire timeline sequence
-            emb = emb.copy()
-            for i, entry in enumerate(meta[:len(emb)]):
-                if entry.get('type') == 'admission_emb':
-                    emb[i] = 0
+        elif self.ablation_mode in ['no_labs', 'no_omr', 'no_outnotes', 'no_icu', 'no_transfers', 'no_last_event']:
+            # Define target types to drop for different ablation modes
+            drop_type = None
+            if self.ablation_mode == 'no_labs':
+                drop_type = 'LAB'
+            elif self.ablation_mode == 'no_omr':
+                drop_type = 'OMR'
+            elif self.ablation_mode == 'no_outnotes':
+                drop_type = 'OUTNOTE'
+            elif self.ablation_mode == 'no_icu':
+                drop_type = 'ICU'
+            elif self.ablation_mode == 'no_transfers':
+                drop_type = 'TRANSFER'
+            elif self.ablation_mode == 'no_last_event':
+                drop_type = 'ADMISSION_EMB'
+
+            if drop_type is not None:
+                # Create a boolean mask of indices to keep
+                keep_mask = []
+                for entry in meta[:len(emb)]:
+                    t = entry.get('type', '')
+                    if t is None:
+                        t = ''
+                    if t.upper() == drop_type:
+                        keep_mask.append(False)
+                    else:
+                        keep_mask.append(True)
+                
+                # Pad keep_mask if it is shorter than len(emb)
+                if len(keep_mask) < len(emb):
+                    keep_mask += [True] * (len(emb) - len(keep_mask))
+                
+                keep_mask = np.array(keep_mask)
+                
+                if not np.all(keep_mask):
+                    # Calculate cumulative time to naturally bridge time gaps after dropping
+                    cum_time = np.cumsum(dt)
+                    
+                    # Filter embeddings, cumulative times, and metadata
+                    emb = emb[keep_mask]
+                    cum_time_filtered = cum_time[keep_mask]
+                    meta = [entry for idx, entry in enumerate(meta) if idx < len(keep_mask) and keep_mask[idx]]
+                    
+                    # Recalculate time delta (dt) diffs
+                    if len(cum_time_filtered) > 0:
+                        dt_new = np.zeros_like(cum_time_filtered)
+                        dt_new[0] = cum_time_filtered[0]
+                        if len(cum_time_filtered) > 1:
+                            dt_new[1:] = np.diff(cum_time_filtered)
+                        dt = dt_new
+                    else:
+                        dt = np.array([])
         elif self.ablation_mode == 'no_future':
             # Remove both the DISCHARGE token and the admission_emb summary
             if len(emb) >= 2:
