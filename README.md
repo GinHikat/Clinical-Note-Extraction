@@ -34,20 +34,29 @@ cd Clinical-Note-Extraction
 ### 2. Set up a Virtual Environment (Recommended)
 It is highly recommended to use a virtual environment to manage your dependencies and avoid conflicts.
 ```bash
-# Create a virtual environment named 'venv'
-python3 -m venv venv
 
-# Activate the virtual environment
-# On Linux/macOS:
-source venv/bin/activate
-# On Windows:
-venv\Scripts\activate
+# If nothing is set up
+wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O miniconda.sh
+bash miniconda.sh -b -p $HOME/miniconda3
+source $HOME/miniconda3/bin/activate
+rm miniconda.sh
+
+# Create a virtual environment 
+conda create -y -n myenv python=3.10.0
+conda activate myenv
+
 ```
 
 ### 3. Install Dependencies
 Install the required Python packages using the provided `requirements.txt` file. This will install necessary libraries such as `torch`, `transformers`, `pandas`, and `scikit-learn`.
 ```bash
-pip install -r requirements.txt
+conda install -y -c conda-forge git-lfs
+git lfs install
+
+# Use uv for faster install, also remember to change the version of torch in the first line of requirements.txt to match the version of the GPU
+# For example, for AMD ROCm use --extra-index-url https://download.pytorch.org/whl/rocm6.2
+pip install uv
+uv pip install -r requirements.txt
 ```
 
 ### 4. Environment Variables
