@@ -50,6 +50,10 @@ conda activate myenv
 ### 3. Install Dependencies
 Install the required Python packages using the provided `requirements.txt` file. This will install necessary libraries such as `torch`, `transformers`, `pandas`, and `scikit-learn`.
 ```bash
+#Accept Term of Use first
+conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/main
+conda tos accept --override-channels --channel https://repo.anaconda.com/pkgs/r
+
 conda install -y -c conda-forge git-lfs
 git lfs install
 
